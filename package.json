@@ -6,9 +6,10 @@
   "scripts": {
     "build": "webpack -p",
     "dev": "webpack-dev-server",
+    "flow": "flow",
     "server": "nodemon server/index.js",
     "start": "node server/index.js",
-    "test": "mocha test/**/*.js"
+    "test": "mocha */test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "chai": "^4.1.2",
     "css-loader": "^1.0.0",
     "eslint": "^5.4.0",
+    "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-react": "^7.11.1",
     "file-loader": "^1.1.11",
     "flow-bin": "^0.79.1",
@@ -53,6 +55,7 @@
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-sound": "^1.2.0"
+    "react-sound": "^1.2.0",
+    "styled-components": "^3.4.4"
   }
 }
