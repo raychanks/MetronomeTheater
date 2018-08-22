@@ -3,31 +3,28 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  beatsPerMinute: number,
+  accentInterval: number,
+  onChangeAccentInterval: (event: SyntheticInputEvent<HTMLInputElement>) => void,
   increment: () => void,
   decrement: () => void,
-  onChangeBpmInput: (event: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onBlurBpmInput: () => void,
 };
 
-const BpmDisplay = ({
-  beatsPerMinute,
+const AccentIntervalSelector = ({
+  accentInterval,
+  onChangeAccentInterval,
   increment,
   decrement,
-  onChangeBpmInput,
-  onBlurBpmInput,
 }: Props) => {
   return (
     <Container>
-      <Text>Beats Per Minute</Text>
+      <Text>Accent Interval</Text>
 
       <Button onClick={decrement}>-</Button>
 
       <BpmInput
         type='text'
-        value={beatsPerMinute}
-        onChange={onChangeBpmInput}
-        onBlur={onBlurBpmInput}
+        value={accentInterval}
+        onChange={onChangeAccentInterval}
       />
 
       <Button onClick={increment}>+</Button>
@@ -35,12 +32,12 @@ const BpmDisplay = ({
   );
 };
 
-export default BpmDisplay;
+export default AccentIntervalSelector;
 
 const Container = styled.div`
   width: 210px;
   height: 80px;
-  margin: 15px;
+  margin: 30px 15px 15px 15px;
   display: grid;
   grid-template-columns: 50px 90px 50px;
   grid-template-rows: 30px 40px;
@@ -84,3 +81,4 @@ const Text = styled.p`
   margin: 0;
   grid-column: 1 / 4;
 `;
+
