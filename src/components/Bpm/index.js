@@ -1,120 +1,52 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import MainButton from './MainButton';
 import BpmDisplay from './BpmDisplay';
 import SoundComponent from './Sound';
 import AccentIntervalSelector from './AccentIntervalSelector';
+import {
+  togglePlayState,
+  increment,
+  decrement,
+  changeAccentInterval,
+  changeBpmInput,
+  validateBpmInput,
+} from '../../actions/metronome';
 
-type Props = {};
-type State = {
-  intervalId: ?IntervalID,
-  beatsPerMinute: number,
-  counter: number,
-  isPlaying: boolean,
-  accentInterval: number,
+type Props = {
+  metronome: {
+    intervalId: ?IntervalID,
+    beatsPerMinute: number,
+    counter: number,
+    isPlaying: boolean,
+    accentInterval: number,
+  }
 };
 
-class Bpm extends React.Component<Props, State> {
-  state = {
-    intervalId: null,
-    beatsPerMinute: 90,
-    counter: 0,
-    isPlaying: false,
-    accentInterval: 4,
-  }
-
+class Bpm extends React.Component<Props> {
   componentWillUnmount() {
-    this.state.intervalId ? clearInterval(this.state.intervalId) : null;
+    this.props.metronome.intervalId
+      ? clearInterval(this.props.metronome.intervalId)
+      : null;
   }
 
   togglePlayState = (): void => {
-    // use the counter to trigger updates of the Sound component
-    if (this.state.isPlaying) {
-      // stop metronome
-      this.state.intervalId ? clearInterval(this.state.intervalId) : null;
+    const { intervalId, isPlaying, beatsPerMinute } = this.props.metronome;
 
-      this.setState({
-        intervalId: null,
-        isPlaying: false,
-        counter: 0,
-      });
-    } else {
-      // start metronome
-      // one minute in ms divided by beatsPerMinute
-      const { beatsPerMinute } = this.state;
-      const repeatInterval = 60000 / beatsPerMinute;
-      const intervalId = setInterval(() => {
-        this.setState(prevState => ({
-          counter: prevState.counter + 1,
-        }));
-      }, repeatInterval);
-
-      this.setState({
-        intervalId,
-        isPlaying: true,
-      });
-    }
+    this.props.togglePlayState(intervalId, isPlaying, beatsPerMinute);
   }
 
-  incrementBpm = (name: string) => (): void => {
-    if (name === 'beatsPerMinute' && this.state.beatsPerMinute < 440) {
-      this.setState(prevState => ({
-        beatsPerMinute: prevState.beatsPerMinute + 1,
-      }));
-    }
-
-    if (name === 'accentInterval') {
-      this.setState(prevState => ({
-        accentInterval: prevState.accentInterval + 1,
-      }));
-    }
+  increment = (name: string) => (): void => {
+    this.props.increment(name, this.props.metronome.beatsPerMinute);
   }
 
-  decrementBpm = (name: string) => (): void => {
-    if (name === 'beatsPerMinute' && this.state.beatsPerMinute > 20) {
-      this.setState(prevState => ({
-        beatsPerMinute: prevState.beatsPerMinute - 1,
-      }));
-    }
+  decrement = (name: string) => (): void => {
+    const { beatsPerMinute, accentInterval } = this.props.metronome;
 
-    if (name === 'accentInterval' && this.state.accentInterval > 0) {
-      this.setState(prevState => ({
-        accentInterval: prevState.accentInterval - 1,
-      }));
-    }
-  }
-
-  onChangeBpmInput = (event: SyntheticKeyboardEvent<HTMLInputElement>): void => {
-    const value = Number(event.currentTarget.value);
-
-    if (!isNaN(value)) {
-      this.setState({ beatsPerMinute: value });
-    }
-  }
-
-  onBlurBpmInput = (): void => {
-    // limit bpm to lie between 20 and 440
-    const { beatsPerMinute } = this.state;
-
-    if (beatsPerMinute < 20) {
-      this.setState({ beatsPerMinute: 20 });
-    }
-
-    if (beatsPerMinute > 440) {
-      this.setState({ beatsPerMinute: 440 });
-    }
-  }
-
-  onChangeAccentInterval = (event: SyntheticInputEvent<HTMLInputElement>) => {
-    const value = Number(event.currentTarget.value);
-
-    if (Object.is(value % 1, 0)) {
-      this.setState({ accentInterval: value });
-    } else {
-      this.setState({ accentInterval: 0 });
-    }
+    this.props.decrement(name, beatsPerMinute, accentInterval);
   }
 
   render() {
@@ -123,9 +55,7 @@ class Bpm extends React.Component<Props, State> {
       counter,
       isPlaying,
       accentInterval,
-    } = this.state;
-
-    console.log(counter, accentInterval)
+    } = this.props.metronome;
 
     const playBeat = isPlaying && counter % accentInterval !== 0;
     const playAccent = isPlaying && counter % accentInterval === 0;
@@ -139,17 +69,17 @@ class Bpm extends React.Component<Props, State> {
 
         <AccentIntervalSelector
           accentInterval={accentInterval}
-          increment={this.incrementBpm('accentInterval')}
-          decrement={this.decrementBpm('accentInterval')}
-          onChangeAccentInterval={this.onChangeAccentInterval}
+          increment={this.increment('accentInterval')}
+          decrement={this.decrement('accentInterval')}
+          onChangeAccentInterval={this.props.changeAccentInterval}
         />
 
         <BpmDisplay
           beatsPerMinute={beatsPerMinute}
-          increment={this.incrementBpm('beatsPerMinute')}
-          decrement={this.decrementBpm('beatsPerMinute')}
-          onChangeBpmInput={this.onChangeBpmInput}
-          onBlurBpmInput={this.onBlurBpmInput}
+          increment={this.increment('beatsPerMinute')}
+          decrement={this.decrement('beatsPerMinute')}
+          onChangeBpmInput={this.props.changeBpmInput}
+          onBlurBpmInput={this.props.validateBpmInput}
         />
 
         <SoundComponent
@@ -162,7 +92,18 @@ class Bpm extends React.Component<Props, State> {
   }
 }
 
-export default Bpm;
+function mapStateToProps({ metronome }) {
+  return { metronome };
+}
+
+export default connect(mapStateToProps, {
+  togglePlayState,
+  increment,
+  decrement,
+  changeAccentInterval,
+  changeBpmInput,
+  validateBpmInput,
+})(Bpm);
 
 const Container = styled.div`
   display: grid;
