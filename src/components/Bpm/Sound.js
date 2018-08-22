@@ -1,8 +1,8 @@
 import React from 'react';
 import Sound from 'react-sound';
 
-import accentSound from 'Sound/accent_shorten.mp3';
-import beatSound from 'Sound/beat_shorten.mp3';
+import accentSound from 'Sound/accent.mp3';
+import beatSound from 'Sound/beat.mp3';
 
 soundManager.setup({ debugMode: false });
 

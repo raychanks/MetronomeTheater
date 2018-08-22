@@ -17,8 +17,9 @@ export default App;
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 100px auto;
+  grid-template-rows: auto auto;
   grid-gap: 20px;
+  margin: 10px;
   align-items: center;
   justify-content: center;
 `;

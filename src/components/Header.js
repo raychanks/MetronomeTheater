@@ -7,7 +7,10 @@ const Header = () => {
     <nav>
       <HeaderText>MetronomeTheater</HeaderText>
       <Text>
-        A metronome for musicians. Support for both simple and odd time signatures.
+        A metronome for musicians.
+      </Text>
+      <Text>
+        Support for both simple and odd time signatures.
       </Text>
     </nav>
   );
@@ -24,4 +27,5 @@ const HeaderText = styled.p`
 const Text = styled.p`
   font-size: 1.2em;
   margin: 0;
+  text-align: start;
 `;
