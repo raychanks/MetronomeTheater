@@ -13,16 +13,35 @@ import {
 } from '../constants/actionTypes';
 
 type State = {
-  intervalId: ?IntervalID,
-  beatsPerMinute: number,
-  counter: number,
-  isPlaying: boolean,
-  accentInterval: number,
+  +intervalId: ?IntervalID,
+  +beatsPerMinute: number,
+  +counter: number,
+  +isPlaying: boolean,
+  +accentInterval: number,
 };
 
-type Action = {
-  type: string,
-};
+type StartMetronomeAction = { type: typeof START_METRONOME, intervalId: IntervalID };
+type StopMetronomeAction = { type: typeof STOP_METRONOME };
+type MetronomeTicksAction = { type: typeof METRONOME_TICKS };
+type IncrementBpmAction = { type: typeof INCREMENT_BPM };
+type IncrementAccentIntervalAction = { type: typeof INCREMENT_ACCENT_INTERVAL };
+type DecrementBpmAction = { type: typeof DECREMENT_BPM };
+type DecrementAccentIntervalAction = { type: typeof DECREMENT_ACCENT_INTERVAL };
+type ChangeAccentIntervalAction = { type: typeof CHANGE_ACCENT_INTERVAL, value: number };
+type ChangeBpmInputAction = { type: typeof CHANGE_BPM_INPUT, value: number };
+type ValidateBpmInputAction = { type: typeof VALIDATE_BPM_INPUT, beatsPerMinute: number };
+
+type Action =
+  | StartMetronomeAction
+  | StopMetronomeAction
+  | MetronomeTicksAction
+  | IncrementBpmAction
+  | IncrementAccentIntervalAction
+  | DecrementBpmAction
+  | DecrementAccentIntervalAction
+  | ChangeAccentIntervalAction
+  | ChangeBpmInputAction
+  | ValidateBpmInputAction;
 
 const INITIAL_STATE: State = {
   intervalId: null,
@@ -34,8 +53,9 @@ const INITIAL_STATE: State = {
 
 export default function (state: State = INITIAL_STATE, action: Action) {
   switch (action.type) {
-  case START_METRONOME:
+  case START_METRONOME: {
     return { ...state, isPlaying: true, intervalId: action.intervalId };
+  }
 
   case STOP_METRONOME:
     return { ...state, intervalId: null, isPlaying: false, counter: 0 };

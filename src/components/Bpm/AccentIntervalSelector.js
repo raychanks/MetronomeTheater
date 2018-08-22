@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 type Props = {
   accentInterval: number,
-  onChangeAccentInterval: (event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onChangeAccentInterval: (event: SyntheticInputEvent<HTMLInputElement>) => mixed,
   increment: () => void,
   decrement: () => void,
 };

@@ -6,8 +6,8 @@ type Props = {
   beatsPerMinute: number,
   increment: () => void,
   decrement: () => void,
-  onChangeBpmInput: (event: SyntheticKeyboardEvent<HTMLInputElement>) => void,
-  onBlurBpmInput: () => void,
+  onChangeBpmInput: (event: SyntheticKeyboardEvent<HTMLInputElement>) => mixed,
+  onBlurBpmInput: () => mixed,
 };
 
 const BpmDisplay = ({

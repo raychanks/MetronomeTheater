@@ -23,7 +23,17 @@ type Props = {
     counter: number,
     isPlaying: boolean,
     accentInterval: number,
-  }
+  },
+  togglePlayState: (
+    intervalId: ?IntervalID,
+    isPlaying: boolean,
+    beatsPerMinute: number,
+  ) => mixed,
+  increment: (name: string, beatsPerMinute: number) => mixed,
+  decrement: (name: string, beatsPerMinute: number, accentInterval: number) => mixed,
+  changeAccentInterval: () => mixed,
+  changeBpmInput: () => mixed,
+  validateBpmInput: () => mixed,
 };
 
 class Bpm extends React.Component<Props> {
