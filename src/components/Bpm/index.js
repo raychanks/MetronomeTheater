@@ -2,18 +2,38 @@
 import * as React from 'react';
 
 import BpmDisplay from './BpmDisplay';
+import SoundComponent from './Sound';
 
-type Props = {
-
-};
-
+type Props = {};
 type State = {
   beatsPerMinute: number,
+  shouldPlayAccent: boolean,
+  shouldPlayBeat: boolean,
+  intervalId: ?IntervalID,
 };
 
 class Bpm extends React.Component<Props, State> {
   state = {
+    intervalId: null,
     beatsPerMinute: 90,
+    shouldPlayAccent: true,
+    shouldPlayBeat: false,
+  }
+
+  componentDidMount() {
+    const intervalId = setInterval(() => {
+      this.setState({
+        shouldPlayAccent: false,
+      });
+    }, 300);
+
+    this.setState({ intervalId });
+  }
+
+  componentWillUnmount() {
+    if (this.state.intervalId) {
+      clearInterval(this.state.intervalId);
+    }
   }
 
   incrementBpm = (): void => {
@@ -64,6 +84,10 @@ class Bpm extends React.Component<Props, State> {
           decrement={this.decrementBpm}
           onChangeBpmInput={this.onChangeBpmInput}
           onBlurBpmInput={this.onBlurBpmInput}
+        />
+        <SoundComponent
+          shouldPlayAccent={true}
+          shouldPlayBeat={false}
         />
       </div>
     );
