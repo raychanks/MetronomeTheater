@@ -8,16 +8,6 @@ type Props = {
 };
 
 const MainButton = ({ togglePlayState, isPlaying }: Props) => {
-  // state = {
-  //   isPlaying: false,
-  // }
-
-  // togglePlayState = (): void => {
-  //   this.setState(prevState => ({
-  //     isPlaying: !prevState.isPlaying,
-  //   }));
-  // }
-
   return (
     <Button onClick={togglePlayState}>
       {isPlaying ? 'Stop' : 'Play'}

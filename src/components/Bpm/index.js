@@ -39,11 +39,13 @@ class Bpm extends React.Component<Props, State> {
         isPlaying: false,
       });
     } else {
+      // one minute in ms divided by beatsPerMinute
+      const repeatInterval = 60000 / this.state.beatsPerMinute;
       const intervalId = setInterval(() => {
         this.setState(prevState => ({
           counter: prevState.counter + 1,
         }));
-      }, 1000);
+      }, repeatInterval);
 
       this.setState({
         intervalId,
