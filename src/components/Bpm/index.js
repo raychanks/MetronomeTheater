@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 
+import MainButton from './MainButton';
 import BpmDisplay from './BpmDisplay';
 import SoundComponent from './Sound';
 
@@ -10,6 +11,8 @@ type State = {
   shouldPlayAccent: boolean,
   shouldPlayBeat: boolean,
   intervalId: ?IntervalID,
+  counter: number,
+  isPlaying: boolean,
 };
 
 class Bpm extends React.Component<Props, State> {
@@ -18,21 +21,34 @@ class Bpm extends React.Component<Props, State> {
     beatsPerMinute: 90,
     shouldPlayAccent: true,
     shouldPlayBeat: false,
-  }
-
-  componentDidMount() {
-    const intervalId = setInterval(() => {
-      this.setState({
-        shouldPlayAccent: false,
-      });
-    }, 300);
-
-    this.setState({ intervalId });
+    counter: 0,
+    isPlaying: false,
   }
 
   componentWillUnmount() {
-    if (this.state.intervalId) {
-      clearInterval(this.state.intervalId);
+    this.state.intervalId ? clearInterval(this.state.intervalId) : null;
+  }
+
+  togglePlayState = (): void => {
+    // use the counter to trigger updates of the Sound component
+    if (this.state.isPlaying) {
+      this.state.intervalId ? clearInterval(this.state.intervalId) : null;
+
+      this.setState({
+        intervalId: null,
+        isPlaying: false,
+      });
+    } else {
+      const intervalId = setInterval(() => {
+        this.setState(prevState => ({
+          counter: prevState.counter + 1,
+        }));
+      }, 1000);
+
+      this.setState({
+        intervalId,
+        isPlaying: true,
+      });
     }
   }
 
@@ -74,10 +90,21 @@ class Bpm extends React.Component<Props, State> {
   }
 
   render() {
-    const { beatsPerMinute } = this.state;
+    const {
+      beatsPerMinute,
+      counter,
+      isPlaying,
+    } = this.state;
+
+    console.log(this.state.counter, this.state.isPlaying)
 
     return (
       <div>
+        <MainButton
+          togglePlayState={this.togglePlayState}
+          isPlaying={isPlaying}
+        />
+
         <BpmDisplay
           beatsPerMinute={beatsPerMinute}
           increment={this.incrementBpm}
@@ -86,8 +113,9 @@ class Bpm extends React.Component<Props, State> {
           onBlurBpmInput={this.onBlurBpmInput}
         />
         <SoundComponent
-          shouldPlayAccent={true}
+          shouldPlayAccent={isPlaying}
           shouldPlayBeat={false}
+          counter={counter}
         />
       </div>
     );

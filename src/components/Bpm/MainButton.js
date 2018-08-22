@@ -3,32 +3,27 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 type Props = {
-
-};
-
-type State = {
+  togglePlayState: () => void,
   isPlaying: boolean,
 };
 
-class MainButton extends React.Component<Props, State> {
-  state = {
-    isPlaying: false,
-  }
+const MainButton = ({ togglePlayState, isPlaying }: Props) => {
+  // state = {
+  //   isPlaying: false,
+  // }
 
-  togglePlayState = (): void => {
-    this.setState(prevState => ({
-      isPlaying: !prevState.isPlaying,
-    }));
-  }
+  // togglePlayState = (): void => {
+  //   this.setState(prevState => ({
+  //     isPlaying: !prevState.isPlaying,
+  //   }));
+  // }
 
-  render() {
-    return (
-      <Button onClick={this.togglePlayState}>
-        {this.state.isPlaying ? 'Stop' : 'Play'}
-      </Button>
-    );
-  }
-}
+  return (
+    <Button onClick={togglePlayState}>
+      {isPlaying ? 'Stop' : 'Play'}
+    </Button>
+  );
+};
 
 export default MainButton;
 
