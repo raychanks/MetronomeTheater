@@ -4,16 +4,33 @@ import {
   ODD_TIME_BPM_INPUT,
   ODD_TIME_ACCENT_INPUT,
   ODD_TIME_DURATION_INPUT,
-  TOGGLE_ODD_TIME,
   ADD_ODD_TIME_ITEM,
   REMOVE_ODD_TIME_ITEM,
   START_ODD_TIME_METRONOME,
   STOP_ODD_TIME_METRONOME,
   ODD_TIME_METRONOME_TICKS,
+  CHANGE_ODD_TIME_SPEED_FACTOR,
 } from '../constants/actionTypes';
 
 // const tempo = 360;
 // const tempo2 = 220;
+
+// type OddTimeState = {
+//   nextId: number,
+//   currentId: number,
+//   counter: number,
+//   intervalId: ?IntervalID,
+//   isPlaying: boolean,
+//   speedFactor: number,
+//   oddTimeItems: {
+//     [oddTimeItem_id: string]: {
+//       id: number,
+//       bpm: number,
+//       accentInterval: number,
+//       duration: number,
+//     },
+//   },
+// }
 
 const INITIAL_STATE = {
   oddTimeItems: {
@@ -176,12 +193,12 @@ const INITIAL_STATE = {
     //   duration: 1,
     // },
   },
-  isOddTimeEnabled: false,
   nextId: 3,
   currentId: 1,
   counter: 0,
   intervalId: null,
   isPlaying: false,
+  speedFactor: 1,
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -221,9 +238,6 @@ export default function (state = INITIAL_STATE, action) {
     return { ...state, oddTimeItems };
   }
 
-  case TOGGLE_ODD_TIME:
-    return { ...state, isOddTimeEnabled: !state.isOddTimeEnabled };
-
   case ADD_ODD_TIME_ITEM: {
     const id = state.nextId;
     const newItem = {
@@ -246,6 +260,12 @@ export default function (state = INITIAL_STATE, action) {
     });
 
     return { ...state, oddTimeItems };
+  }
+
+  case CHANGE_ODD_TIME_SPEED_FACTOR: {
+    if (action.value >= 0.3 && action.value <= 1.5) {
+      return { ...state, speedFactor: action.value };
+    }
   }
 
   default:

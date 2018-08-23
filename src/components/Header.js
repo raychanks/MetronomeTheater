@@ -2,15 +2,20 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-const Header = (props) => {
+type Props = {
+  toggleMetronomeMode: (from: string) => void,
+  useSimpleMetronome: boolean,
+};
+
+const Header = (props: Props) => {
   return (
     <Container>
-      <HeaderText>MetronomeTheater</HeaderText>
+      <HeaderText>Metronome Theater</HeaderText>
       <Text>
         Support for both simple and odd time signatures.
       </Text>
       <Text>
-        A metronome for musicians.
+        A metronome for musicians and music lovers.
       </Text>
 
       <ButtonContainer>

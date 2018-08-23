@@ -3,13 +3,49 @@ import {
   ODD_TIME_BPM_INPUT,
   ODD_TIME_ACCENT_INPUT,
   ODD_TIME_DURATION_INPUT,
-  TOGGLE_ODD_TIME,
   ADD_ODD_TIME_ITEM,
   REMOVE_ODD_TIME_ITEM,
   START_ODD_TIME_METRONOME,
   STOP_ODD_TIME_METRONOME,
   ODD_TIME_METRONOME_TICKS,
+  CHANGE_ODD_TIME_SPEED_FACTOR,
 } from '../constants/actionTypes';
+
+import type {
+  ODD_TIME_BPM_INPUT_TYPE,
+  ODD_TIME_ACCENT_INPUT_TYPE,
+  ODD_TIME_DURATION_INPUT_TYPE,
+  ADD_ODD_TIME_ITEM_TYPE,
+  REMOVE_ODD_TIME_ITEM_TYPE,
+  START_ODD_TIME_METRONOME_TYPE,
+  STOP_ODD_TIME_METRONOME_TYPE,
+  ODD_TIME_METRONOME_TICKS_TYPE,
+  CHANGE_ODD_TIME_SPEED_FACTOR_TYPE,
+  State,
+} from '../constants/flowTypes';
+
+
+
+type Action =
+  | { type: ODD_TIME_BPM_INPUT_TYPE, id: number, value: number }
+  | { type: ODD_TIME_ACCENT_INPUT_TYPE, id: number, value: number }
+  | { type: ODD_TIME_DURATION_INPUT_TYPE, id: number, value: number }
+  | { type: ADD_ODD_TIME_ITEM_TYPE }
+  | { type: REMOVE_ODD_TIME_ITEM_TYPE, id: number }
+  | { type: START_ODD_TIME_METRONOME_TYPE }
+  | { type: STOP_ODD_TIME_METRONOME_TYPE }
+  | { type: ODD_TIME_METRONOME_TICKS_TYPE, currentId: number, counter: number }
+  | { type: CHANGE_ODD_TIME_SPEED_FACTOR_TYPE, value: number };
+
+type GetState = () => State;
+type Dispatch = (action: Action | ThunkAction) => any;
+type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
+type IntervalWrapperItem = {
+  id: number,
+  bpm: number,
+  accentInterval: number,
+  duration: number,
+};
 
 export const oddTimeBpmInput = (
   id: number,
@@ -44,19 +80,15 @@ export const oddTimeDurationInput = (
   };
 };
 
-export const toggleOddTime = () => {
-  return { type: TOGGLE_ODD_TIME };
-};
-
 export const addOddTimeItem = () => {
   return { type: ADD_ODD_TIME_ITEM };
 };
 
-export const removeOddTimeItem = id => {
+export const removeOddTimeItem = (id: number) => {
   return { type: REMOVE_ODD_TIME_ITEM, id };
 };
 
-export const toggleOddTimePlayState = () => (dispatch, getState) => {
+export const toggleOddTimePlayState = (): ThunkAction => (dispatch, getState) => {
   const { isPlaying, intervalId, oddTimeItems } = getState().oddTime;
 
   if (isPlaying) {
@@ -68,7 +100,11 @@ export const toggleOddTimePlayState = () => (dispatch, getState) => {
     });
 
     const oddTimeItemsArr = Object.values(oddTimeItems);
-    const intervalWrapper = (item, idx, ms) => () => new Promise((resolve, reject) => {
+    const intervalWrapper = (
+      item: IntervalWrapperItem,
+      idx: number,
+      ms: number,
+    ) => () => new Promise((resolve, reject) => {
       let counter = 0;
 
       if (idx !== 0 && item.accentInterval * item.duration !== 0) {
@@ -104,7 +140,10 @@ export const toggleOddTimePlayState = () => (dispatch, getState) => {
       }, ms);
     });
 
-    const dataFunc = oddTimeItemsArr.map((item, idx) => {
+    const dataFunc = oddTimeItemsArr.map((
+      item: any,
+      idx: number,
+    ) => {
       const repeatInterval = 60000 / item.bpm;
 
       return intervalWrapper(item, idx, repeatInterval);
@@ -119,4 +158,10 @@ export const toggleOddTimePlayState = () => (dispatch, getState) => {
         dispatch({ type: STOP_ODD_TIME_METRONOME });
       });
   }
+};
+
+export const changeSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  const value = Number(event.currentTarget.value);
+
+  return { type: CHANGE_ODD_TIME_SPEED_FACTOR, value };
 };

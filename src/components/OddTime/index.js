@@ -7,14 +7,16 @@ import CustomTimeSignatureList from './CustomTimeSignatureList';
 import SoundComponent from '../Bpm/Sound';
 import StartButton from './StartButton';
 import {
-  toggleOddTime,
   addOddTimeItem,
   toggleOddTimePlayState,
+  changeSpeedFactor,
 } from '../../actions/oddTime';
 
 type Props = {
-  toggleOddTime: () => mixed,
   addOddTimeItem: () => mixed,
+  toggleOddTimePlayState: () => *,
+  changeSpeedFactor: () => void,
+  oddTime: *,
 };
 
 class OddTime extends React.Component<Props> {
@@ -24,6 +26,7 @@ class OddTime extends React.Component<Props> {
       counter,
       currentId,
       oddTimeItems,
+      speedFactor,
     } = this.props.oddTime;
     const accentInterval = oddTimeItems[currentId]
       ? oddTimeItems[currentId].accentInterval
@@ -33,10 +36,21 @@ class OddTime extends React.Component<Props> {
 
     return (
       <Container>
-        <StartButton
-          isPlaying={isPlaying}
-          togglePlayState={this.props.toggleOddTimePlayState}
-        />
+        <ButtonSection>
+          <StartButton
+            isPlaying={isPlaying}
+            togglePlayState={this.props.toggleOddTimePlayState}
+          />
+
+          <div>
+            <HeaderText>Speed Factor</HeaderText>
+            <NumberInput
+              type='text'
+              value={speedFactor}
+              onChange={this.props.changeSpeedFactor}
+            />
+          </div>
+        </ButtonSection>
 
         <Header>
           <HeaderText>BPM</HeaderText>
@@ -64,9 +78,9 @@ function mapStateToProps({ oddTime }) {
 }
 
 export default connect(mapStateToProps, {
-  toggleOddTime,
   addOddTimeItem,
   toggleOddTimePlayState,
+  changeSpeedFactor,
 })(OddTime);
 
 const Container = styled.div`
@@ -76,6 +90,27 @@ const Container = styled.div`
   grid-area: timer;
   align-self: start;
   justify-items: center;
+`;
+
+const ButtonSection = styled.div`
+  display: grid;
+  grid-template-columns: 200px 100px;
+  column-gap: 20px;
+  align-items: center;
+  height: 200px;
+  margin-bottom: 30px;
+`;
+
+const NumberInput = styled.input`
+  box-sizing: border-box;
+  width: 90px;
+  height: 30px;
+  margin: 5px 0;
+  border: 1px solid steelblue;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 1.2em;
+  color: steelblue;
 `;
 
 const Header = styled.div`

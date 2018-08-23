@@ -14,9 +14,36 @@ export type VALIDATE_BPM_INPUT_TYPE = 'VALIDATE_BPM_INPUT';
 export type ODD_TIME_BPM_INPUT_TYPE = 'ODD_TIME_BPM_INPUT';
 export type ODD_TIME_ACCENT_INPUT_TYPE = 'ODD_TIME_ACCENT_INPUT';
 export type ODD_TIME_DURATION_INPUT_TYPE = 'ODD_TIME_DURATION_INPUT';
-export type TOGGLE_ODD_TIME_TYPE = 'TOGGLE_ODD_TIME';
 export type ADD_ODD_TIME_ITEM_TYPE = 'ADD_ODD_TIME_ITEM';
 export type REMOVE_ODD_TIME_ITEM_TYPE = 'REMOVE_ODD_TIME_ITEM';
 export type START_ODD_TIME_METRONOME_TYPE = 'START_ODD_TIME_METRONOME';
 export type STOP_ODD_TIME_METRONOME_TYPE = 'STOP_ODD_TIME_METRONOME';
 export type ODD_TIME_METRONOME_TICKS_TYPE = 'ODD_TIME_METRONOME_TICKS';
+export type CHANGE_ODD_TIME_SPEED_FACTOR_TYPE = 'CHANGE_ODD_TIME_SPEED_FACTOR_TYPE';
+
+// State
+export type State = {
+  metronome: {
+    +intervalId: ?IntervalID,
+    +beatsPerMinute: number,
+    +counter: number,
+    +isPlaying: boolean,
+    +accentInterval: number,
+  },
+  oddTime: {
+    +nextId: number,
+    +currentId: number,
+    +counter: number,
+    +intervalId: ?IntervalID,
+    +isPlaying: boolean,
+    +speedFactor: number,
+    +oddTimeItems: {
+      +[oddTimeItem_id: string]: {
+        +id: number,
+        +bpm: number,
+        +accentInterval: number,
+        +duration: number,
+      },
+    },
+  },
+};

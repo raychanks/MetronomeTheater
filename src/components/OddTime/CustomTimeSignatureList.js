@@ -12,10 +12,11 @@ import {
 } from '../../actions/oddTime';
 
 type Props = {
-  oddTimeBpmInput: () => void,
-  oddTimeAccentInput: () => void,
-  oddTimeDurationInput: () => void,
+  oddTimeBpmInput: (id: number, value: number) => void,
+  oddTimeAccentInput: (id: number, value: number) => void,
+  oddTimeDurationInput: (id: number, value: number) => void,
   oddTimeItems: *,
+  currentId: number,
 };
 
 class CustomTimeSignatureList extends React.Component<Props> {
@@ -41,16 +42,19 @@ class CustomTimeSignatureList extends React.Component<Props> {
                 type='text'
                 value={item.bpm}
                 onChange={this.oddTimeInput('bpm', item.id)}
+                active={this.props.currentId === item.id && this.props.isPlaying}
               />
               <AccentInput
                 type='text'
                 value={item.accentInterval}
                 onChange={this.oddTimeInput('accent', item.id)}
+                active={this.props.currentId === item.id && this.props.isPlaying}
               />
               <DurationInput
                 type='text'
                 value={item.duration}
                 onChange={this.oddTimeInput('duration', item.id)}
+                active={this.props.currentId === item.id && this.props.isPlaying}
               />
               <ButtonContainer id={item.id} />
             </Container>
@@ -62,7 +66,11 @@ class CustomTimeSignatureList extends React.Component<Props> {
 }
 
 function mapStateToProps({ oddTime }) {
-  return { oddTimeItems: oddTime.oddTimeItems };
+  return {
+    oddTimeItems: oddTime.oddTimeItems,
+    currentId: oddTime.currentId,
+    isPlaying: oddTime.isPlaying,
+  };
 }
 
 export default connect(mapStateToProps, {
@@ -89,6 +97,8 @@ const BpmInput = styled.input`
   text-align: center;
   font-size: 1.2em;
   color: steelblue;
+
+  ${props => props.active ? 'background: powderblue;' : null}
 `;
 
 const AccentInput = styled.input`
@@ -101,6 +111,8 @@ const AccentInput = styled.input`
   text-align: center;
   font-size: 1.2em;
   color: steelblue;
+
+  ${props => props.active ? 'background: powderblue;' : null}
 `;
 
 const DurationInput = styled.input`
@@ -113,4 +125,6 @@ const DurationInput = styled.input`
   text-align: center;
   font-size: 1.2em;
   color: steelblue;
+
+  ${props => props.active ? 'background: powderblue;' : null}
 `;
