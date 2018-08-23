@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import _ from 'lodash';
+import map from 'lodash/map';
 
 import ButtonContainer from './ButtonContainer';
 import {
@@ -34,7 +34,7 @@ class CustomTimeSignatureList extends React.Component<Props> {
   render() {
     return (
       <div>
-        {_.map(this.props.oddTimeItems, item => {
+        {map(this.props.oddTimeItems, item => {
           return (
             <Container key={item.id}>
               <BpmInput
@@ -73,7 +73,7 @@ export default connect(mapStateToProps, {
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 90px 90px 90px 120px;
+  grid-template-columns: 90px 90px 90px 40px;
   grid-gap: 10px;
   align-items: center;
   justify-items: center;

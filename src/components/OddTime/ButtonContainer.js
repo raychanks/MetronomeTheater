@@ -21,21 +21,22 @@ class ButtonContainer extends React.Component<Props> {
         <Button onClick={this.removeOddTimeItemWrapper(this.props.id)}>
           x
         </Button>
-        <Button>
-          U
-        </Button>
-        <Button>
-          D
-        </Button>
+        {/* <Button> */}
+        {/*   U */}
+        {/* </Button> */}
+        {/* <Button> */}
+        {/*   D */}
+        {/* </Button> */}
       </Container>
     );
   }
-};
+}
 
 export default connect(null, { removeOddTimeItem })(ButtonContainer);
 
 const Container = styled.div`
-  width: 120px;
+  /*width: 120px;*/
+  width: 40px;
 `;
 
 const Button = styled.button`

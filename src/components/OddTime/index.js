@@ -91,7 +91,7 @@ const Container = styled.div`
 
 const Header = styled.div`
   display: grid;
-  grid-template-columns: 90px 90px 90px 40px 70px;
+  grid-template-columns: 90px 90px 90px 40px;
   grid-gap: 10px;
   align-items: center;
   justify-items: center;

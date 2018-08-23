@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import filter from 'lodash/filter';
 
 import {
   ODD_TIME_BPM_INPUT,
@@ -19,16 +19,16 @@ const INITIAL_STATE = {
   oddTimeItems: {
     '1': {
       id: 1,
-      bpm: 180,
-      accentInterval: 5,
+      bpm: 240,
+      accentInterval: 3,
       duration: 2,
     },
-    // '2': {
-    //   id: 2,
-    //   bpm: tempo,
-    //   accentInterval: 7,
-    //   duration: 1,
-    // },
+    '2': {
+      id: 2,
+      bpm: 90,
+      accentInterval: 2,
+      duration: 3,
+    },
     // '3': {
     //   id: 3,
     //   bpm: tempo,
@@ -177,7 +177,7 @@ const INITIAL_STATE = {
     // },
   },
   isOddTimeEnabled: false,
-  nextId: 2,
+  nextId: 3,
   currentId: 1,
   counter: 0,
   intervalId: null,
@@ -241,7 +241,7 @@ export default function (state = INITIAL_STATE, action) {
   }
 
   case REMOVE_ODD_TIME_ITEM: {
-    const oddTimeItems = _.filter(state.oddTimeItems, item => {
+    const oddTimeItems = filter(state.oddTimeItems, item => {
       return item.id !== action.id;
     });
 
