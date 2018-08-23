@@ -18,17 +18,6 @@ type Props = {
 };
 
 class OddTime extends React.Component<Props> {
-  toggleOddTimePlayStateWrapper = () => {
-    const {
-      intervalId,
-      isPlaying,
-      oddTimeItems,
-    } = this.props.oddTime;
-    const oddTimeItemsArr = Object.values(oddTimeItems);
-
-    this.props.toggleOddTimePlayState(intervalId, isPlaying, oddTimeItemsArr);
-  }
-
   render() {
     const {
       isPlaying,
@@ -46,7 +35,7 @@ class OddTime extends React.Component<Props> {
       <Container>
         <StartButton
           isPlaying={isPlaying}
-          togglePlayState={this.toggleOddTimePlayStateWrapper}
+          togglePlayState={this.props.toggleOddTimePlayState}
         />
 
         <Header>

@@ -11,13 +11,6 @@ import {
   ODD_TIME_METRONOME_TICKS,
 } from '../constants/actionTypes';
 
-type OddTimeItem = {
-  id: number,
-  bpm: number,
-  accentInterval: number,
-  duration: number,
-};
-
 export const oddTimeBpmInput = (
   id: number,
   value: number,
@@ -63,29 +56,18 @@ export const removeOddTimeItem = id => {
   return { type: REMOVE_ODD_TIME_ITEM, id };
 };
 
-// not ideal, but do it like this for now to fix the multiple running timers bug
-let shouldStop = false;
+export const toggleOddTimePlayState = () => (dispatch, getState) => {
+  const { isPlaying, intervalId, oddTimeItems } = getState().oddTime;
 
-export const toggleOddTimePlayState = (
-  intervalId: ?IntervalID,
-  isPlaying: boolean,
-  oddTimeItemsArr: Array<OddTimeItem>,
-): ThunkAction => dispatch => {
-  // use the counter to trigger updates of the Sound component
   if (isPlaying) {
-    // stop metronome
     intervalId ? clearInterval(intervalId) : null;
-    shouldStop = true;
-
     dispatch({ type: STOP_ODD_TIME_METRONOME });
   } else {
-    // start metronome
-    shouldStop = false;
-
     dispatch({
       type: START_ODD_TIME_METRONOME,
     });
 
+    const oddTimeItemsArr = Object.values(oddTimeItems);
     const intervalWrapper = (item, idx, ms) => () => new Promise((resolve, reject) => {
       let counter = 0;
 
@@ -98,7 +80,9 @@ export const toggleOddTimePlayState = (
       }
 
       const intervalId = setInterval(() => {
-        if (shouldStop) reject(intervalId);
+        if (!getState().oddTime.isPlaying) {
+          reject(intervalId);
+        }
 
         if (item.accentInterval * item.duration > counter + 1) {
           dispatch({
@@ -106,6 +90,7 @@ export const toggleOddTimePlayState = (
             currentId: item.id,
             counter: counter + 1,
           });
+
           counter++;
         } else {
           clearInterval(intervalId);
@@ -130,7 +115,6 @@ export const toggleOddTimePlayState = (
       return acc.then(func);
     }, Promise.resolve())
       .catch(intervalId => {
-        console.log('stopped==========')
         clearInterval(intervalId);
         dispatch({ type: STOP_ODD_TIME_METRONOME });
       });
