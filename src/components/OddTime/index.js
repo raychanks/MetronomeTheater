@@ -4,54 +4,97 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import CustomTimeSignatureList from './CustomTimeSignatureList';
-import { toggleOddTime, addOddTimeItem } from '../../actions/oddTime';
+import SoundComponent from '../Bpm/Sound';
+import StartButton from './StartButton';
+import {
+  toggleOddTime,
+  addOddTimeItem,
+  toggleOddTimePlayState,
+} from '../../actions/oddTime';
 
 type Props = {
   toggleOddTime: () => mixed,
   addOddTimeItem: () => mixed,
 };
 
-const OddTime = (props: Props) => {
-  return (
-    <Container>
-      <div>
-        <OddTimeCheckBox
-          id='odd-time-checkbox'
-          type='checkbox'
-          checked={props.isOddTimeEnabled}
-          onChange={props.toggleOddTime}
+class OddTime extends React.Component<Props> {
+  toggleOddTimePlayStateWrapper = () => {
+    const {
+      intervalId,
+      isPlaying,
+      oddTimeItems,
+      reject,
+    } = this.props.oddTime;
+    const oddTimeItemsArr = Object.values(oddTimeItems);
+
+    this.props.toggleOddTimePlayState(intervalId, isPlaying, oddTimeItemsArr, reject);
+  }
+
+  render() {
+    const {
+      isPlaying,
+      counter,
+      currentId,
+      oddTimeItems,
+    } = this.props.oddTime;
+    const accentInterval = oddTimeItems[currentId].accentInterval;
+    const playBeat = isPlaying && counter % accentInterval !== 0;
+    const playAccent = isPlaying && counter % accentInterval === 0;
+
+    return (
+      <Container>
+        <div>
+          <OddTimeCheckBox
+            id='odd-time-checkbox'
+            type='checkbox'
+            checked={this.props.oddTime.isOddTimeEnabled}
+            onChange={this.props.toggleOddTime}
+          />
+          <OddTimeCheckBoxLabel htmlFor='odd-time-checkbox'>
+            Odd time mode
+          </OddTimeCheckBoxLabel>
+        </div>
+
+        <StartButton
+          isPlaying={isPlaying}
+          togglePlayState={this.toggleOddTimePlayStateWrapper}
         />
-        <OddTimeCheckBoxLabel htmlFor='odd-time-checkbox'>
-          Use metronome in odd time mode
-        </OddTimeCheckBoxLabel>
-      </div>
 
-      <Header>
-        <HeaderText>BPM</HeaderText>
-        <HeaderText>Accent Interval</HeaderText>
-        <HeaderText>No. of measures</HeaderText>
-        <Button onClick={props.addOddTimeItem}>
-          +
-        </Button>
-      </Header>
+        <Header>
+          <HeaderText>BPM</HeaderText>
+          <HeaderText>Accent Interval</HeaderText>
+          <HeaderText>No. of measures</HeaderText>
+          <Button onClick={this.props.addOddTimeItem}>
+            +
+          </Button>
+        </Header>
 
-      <CustomTimeSignatureList />
-    </Container>
-  );
-};
+        <CustomTimeSignatureList />
+
+        <SoundComponent
+          shouldPlayAccent={playAccent}
+          shouldPlayBeat={playBeat}
+          counter={counter}
+        />
+      </Container>
+    );
+  }
+}
 
 function mapStateToProps({ oddTime }) {
-  return { isOddTimeEnabled: oddTime.isOddTimeEnabled };
+  return { oddTime };
 }
 
 export default connect(mapStateToProps, {
   toggleOddTime,
   addOddTimeItem,
+  toggleOddTimePlayState,
 })(OddTime);
 
 const Container = styled.div`
   display: grid;
   row-gap: 10px;
+  grid-template-rows: 40px 200px;
   grid-auto-rows: 40px;
   grid-area: odd;
   align-self: start;

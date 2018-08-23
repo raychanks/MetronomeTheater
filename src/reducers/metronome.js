@@ -12,6 +12,8 @@ import {
   VALIDATE_BPM_INPUT,
 } from '../constants/actionTypes';
 
+import type { STOP_METRONOME_TYPE } from '../constants/flowTypes';
+
 type State = {
   +intervalId: ?IntervalID,
   +beatsPerMinute: number,
@@ -21,7 +23,7 @@ type State = {
 };
 
 type StartMetronomeAction = { type: typeof START_METRONOME, intervalId: IntervalID };
-type StopMetronomeAction = { type: typeof STOP_METRONOME };
+type StopMetronomeAction = { type: STOP_METRONOME_TYPE };
 type MetronomeTicksAction = { type: typeof METRONOME_TICKS };
 type IncrementBpmAction = { type: typeof INCREMENT_BPM };
 type IncrementAccentIntervalAction = { type: typeof INCREMENT_ACCENT_INTERVAL };
