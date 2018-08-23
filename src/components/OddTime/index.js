@@ -10,6 +10,7 @@ import {
   addOddTimeItem,
   toggleOddTimePlayState,
   changeSpeedFactor,
+  validateSpeedFactor,
 } from '../../actions/oddTime';
 
 type Props = {
@@ -44,10 +45,12 @@ class OddTime extends React.Component<Props> {
 
           <div>
             <HeaderText>Speed Factor</HeaderText>
+            <HeaderText>(30% - 150%)</HeaderText>
             <NumberInput
-              type='text'
+              type='number'
               value={speedFactor}
               onChange={this.props.changeSpeedFactor}
+              onBlur={this.props.validateSpeedFactor}
             />
           </div>
         </ButtonSection>
@@ -81,6 +84,7 @@ export default connect(mapStateToProps, {
   addOddTimeItem,
   toggleOddTimePlayState,
   changeSpeedFactor,
+  validateSpeedFactor,
 })(OddTime);
 
 const Container = styled.div`
@@ -94,7 +98,7 @@ const Container = styled.div`
 
 const ButtonSection = styled.div`
   display: grid;
-  grid-template-columns: 200px 100px;
+  grid-template-columns: 200px 150px;
   column-gap: 20px;
   align-items: center;
   height: 200px;
@@ -103,9 +107,9 @@ const ButtonSection = styled.div`
 
 const NumberInput = styled.input`
   box-sizing: border-box;
-  width: 90px;
+  width: 100px;
   height: 30px;
-  margin: 5px 0;
+  margin: 5px 25px;
   border: 1px solid steelblue;
   border-radius: 2px;
   text-align: center;

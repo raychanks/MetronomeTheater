@@ -9,6 +9,7 @@ import {
   STOP_ODD_TIME_METRONOME,
   ODD_TIME_METRONOME_TICKS,
   CHANGE_ODD_TIME_SPEED_FACTOR,
+  VALIDATE_ODD_TIME_SPEED_FACTOR,
 } from '../constants/actionTypes';
 
 import type {
@@ -21,6 +22,7 @@ import type {
   STOP_ODD_TIME_METRONOME_TYPE,
   ODD_TIME_METRONOME_TICKS_TYPE,
   CHANGE_ODD_TIME_SPEED_FACTOR_TYPE,
+  VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE,
   State,
 } from '../constants/flowTypes';
 
@@ -35,7 +37,8 @@ type Action =
   | { type: START_ODD_TIME_METRONOME_TYPE }
   | { type: STOP_ODD_TIME_METRONOME_TYPE }
   | { type: ODD_TIME_METRONOME_TICKS_TYPE, currentId: number, counter: number }
-  | { type: CHANGE_ODD_TIME_SPEED_FACTOR_TYPE, value: number };
+  | { type: CHANGE_ODD_TIME_SPEED_FACTOR_TYPE, value: number }
+  | { type: VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE, value: number };
 
 type GetState = () => State;
 type Dispatch = (action: Action | ThunkAction) => any;
@@ -164,4 +167,10 @@ export const changeSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>) 
   const value = Number(event.currentTarget.value);
 
   return { type: CHANGE_ODD_TIME_SPEED_FACTOR, value };
+};
+
+export const validateSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  const value = Number(event.currentTarget.value);
+
+  return { type: VALIDATE_ODD_TIME_SPEED_FACTOR, value };
 };

@@ -10,6 +10,7 @@ import {
   STOP_ODD_TIME_METRONOME,
   ODD_TIME_METRONOME_TICKS,
   CHANGE_ODD_TIME_SPEED_FACTOR,
+  VALIDATE_ODD_TIME_SPEED_FACTOR,
 } from '../constants/actionTypes';
 
 // const tempo = 360;
@@ -198,7 +199,7 @@ const INITIAL_STATE = {
   counter: 0,
   intervalId: null,
   isPlaying: false,
-  speedFactor: 1,
+  speedFactor: 100,
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -263,8 +264,20 @@ export default function (state = INITIAL_STATE, action) {
   }
 
   case CHANGE_ODD_TIME_SPEED_FACTOR: {
-    if (action.value >= 0.3 && action.value <= 1.5) {
+    if (!isNaN(action.value)) {
       return { ...state, speedFactor: action.value };
+    }
+
+    return state;
+  }
+
+  case VALIDATE_ODD_TIME_SPEED_FACTOR: {
+    if (action.value <= 30) {
+      return { ...state, speedFactor: 30 };
+    } else if (action.value >= 150) {
+      return { ...state, speedFactor: 150 };
+    } else {
+      return state;
     }
   }
 
