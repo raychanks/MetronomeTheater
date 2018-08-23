@@ -18,7 +18,7 @@ const Header = (props) => {
           onClick={props.toggleMetronomeMode('basic')}
           active={props.useSimpleMetronome}
         >
-          Basic Mode
+          Classic Mode
         </Button>
 
         <Button
