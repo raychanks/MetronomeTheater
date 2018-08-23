@@ -23,11 +23,10 @@ class OddTime extends React.Component<Props> {
       intervalId,
       isPlaying,
       oddTimeItems,
-      reject,
     } = this.props.oddTime;
     const oddTimeItemsArr = Object.values(oddTimeItems);
 
-    this.props.toggleOddTimePlayState(intervalId, isPlaying, oddTimeItemsArr, reject);
+    this.props.toggleOddTimePlayState(intervalId, isPlaying, oddTimeItemsArr);
   }
 
   render() {
@@ -37,24 +36,14 @@ class OddTime extends React.Component<Props> {
       currentId,
       oddTimeItems,
     } = this.props.oddTime;
-    const accentInterval = oddTimeItems[currentId].accentInterval;
+    const accentInterval = oddTimeItems[currentId]
+      ? oddTimeItems[currentId].accentInterval
+      : 1;
     const playBeat = isPlaying && counter % accentInterval !== 0;
     const playAccent = isPlaying && counter % accentInterval === 0;
 
     return (
       <Container>
-        <div>
-          <OddTimeCheckBox
-            id='odd-time-checkbox'
-            type='checkbox'
-            checked={this.props.oddTime.isOddTimeEnabled}
-            onChange={this.props.toggleOddTime}
-          />
-          <OddTimeCheckBoxLabel htmlFor='odd-time-checkbox'>
-            Odd time mode
-          </OddTimeCheckBoxLabel>
-        </div>
-
         <StartButton
           isPlaying={isPlaying}
           togglePlayState={this.toggleOddTimePlayStateWrapper}
@@ -94,22 +83,15 @@ export default connect(mapStateToProps, {
 const Container = styled.div`
   display: grid;
   row-gap: 10px;
-  grid-template-rows: 40px 200px;
-  grid-auto-rows: 40px;
-  grid-area: odd;
+  grid-template-rows: 230px;
+  grid-area: timer;
   align-self: start;
-`;
-
-const OddTimeCheckBoxLabel = styled.label`
-
-`;
-
-const OddTimeCheckBox = styled.input`
+  justify-items: center;
 `;
 
 const Header = styled.div`
   display: grid;
-  grid-template-columns: 90px 90px 90px 40px;
+  grid-template-columns: 90px 90px 90px 40px 70px;
   grid-gap: 10px;
   align-items: center;
   justify-items: center;
@@ -120,6 +102,7 @@ const HeaderText = styled.p`
   font-size: 1.2em;
   margin: 0;
   text-align: center;
+  color: steelblue;
 `;
 
 const Button = styled.button`
@@ -132,6 +115,8 @@ const Button = styled.button`
   font-size: 1.2em;
   cursor: pointer;
   outline: none;
+  color: steelblue;
+  user-select: none;
 
   :hover {
     background: #ddd;

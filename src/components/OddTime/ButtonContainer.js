@@ -48,6 +48,8 @@ const Button = styled.button`
   font-size: 1.2em;
   cursor: pointer;
   outline: none;
+  color: steelblue;
+  user-select: none;
 
   :hover {
     background: #ddd;

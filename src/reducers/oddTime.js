@@ -12,70 +12,169 @@ import {
   ODD_TIME_METRONOME_TICKS,
 } from '../constants/actionTypes';
 
-const tempo = 300;
+// const tempo = 360;
+// const tempo2 = 220;
 
 const INITIAL_STATE = {
   oddTimeItems: {
     '1': {
       id: 1,
-      bpm: tempo,
+      bpm: 180,
       accentInterval: 5,
       duration: 2,
     },
-    '2': {
-      id: 2,
-      bpm: tempo,
-      accentInterval: 7,
-      duration: 1,
-    },
-    '3': {
-      id: 3,
-      bpm: tempo,
-      accentInterval: 5,
-      duration: 1,
-    },
-    '4': {
-      id: 4,
-      bpm: tempo,
-      accentInterval: 7,
-      duration: 1,
-    },
-    '5': {
-      id: 5,
-      bpm: tempo,
-      accentInterval: 5,
-      duration: 2,
-    },
-    '6': {
-      id: 6,
-      bpm: tempo,
-      accentInterval: 7,
-      duration: 1,
-    },
-    '7': {
-      id: 7,
-      bpm: tempo,
-      accentInterval: 4,
-      duration: 2,
-    },
-    '8': {
-      id: 8,
-      bpm: tempo,
-      accentInterval: 3,
-      duration: 1,
-    },
-    '9': {
-      id: 9,
-      bpm: tempo,
-      accentInterval: 4,
-      duration: 2,
-    },
-    '10': {
-      id: 10,
-      bpm: tempo,
-      accentInterval: 3,
-      duration: 1,
-    },
+    // '2': {
+    //   id: 2,
+    //   bpm: tempo,
+    //   accentInterval: 7,
+    //   duration: 1,
+    // },
+    // '3': {
+    //   id: 3,
+    //   bpm: tempo,
+    //   accentInterval: 5,
+    //   duration: 1,
+    // },
+    // '4': {
+    //   id: 4,
+    //   bpm: tempo,
+    //   accentInterval: 7,
+    //   duration: 1,
+    // },
+    // '5': {
+    //   id: 5,
+    //   bpm: tempo,
+    //   accentInterval: 5,
+    //   duration: 2,
+    // },
+    // '6': {
+    //   id: 6,
+    //   bpm: tempo,
+    //   accentInterval: 7,
+    //   duration: 1,
+    // },
+    // '7': {
+    //   id: 7,
+    //   bpm: tempo,
+    //   accentInterval: 4,
+    //   duration: 2,
+    // },
+    // '8': {
+    //   id: 8,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
+    // '9': {
+    //   id: 9,
+    //   bpm: tempo,
+    //   accentInterval: 4,
+    //   duration: 2,
+    // },
+    // '10': {
+    //   id: 10,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
+    // // second line
+    // '11': {
+    //   id: 11,
+    //   bpm: tempo2,
+    //   accentInterval: 8,
+    //   duration: 1,
+    // },
+    // '12': {
+    //   id: 12,
+    //   bpm: tempo2,
+    //   accentInterval: 7,
+    //   duration: 1,
+    // },
+    // '13': {
+    //   id: 13,
+    //   bpm: tempo2,
+    //   accentInterval: 6,
+    //   duration: 2,
+    // },
+    // '14': {
+    //   id: 14,
+    //   bpm: tempo2,
+    //   accentInterval: 8,
+    //   duration: 1,
+    // },
+    // '15': {
+    //   id: 15,
+    //   bpm: tempo2,
+    //   accentInterval: 7,
+    //   duration: 1,
+    // },
+    // // third line
+    // '16': {
+    //   id: 16,
+    //   bpm: tempo,
+    //   accentInterval: 6,
+    //   duration: 1,
+    // },
+    // '17': {
+    //   id: 17,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
+    // '18': {
+    //   id: 18,
+    //   bpm: tempo,
+    //   accentInterval: 6,
+    //   duration: 2,
+    // },
+    // '19': {
+    //   id: 19,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 3,
+    // },
+    // '20': {
+    //   id: 20,
+    //   bpm: tempo,
+    //   accentInterval: 6,
+    //   duration: 1,
+    // },
+    // '21': {
+    //   id: 21,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
+    // '22': {
+    //   id: 22,
+    //   bpm: tempo,
+    //   accentInterval: 6,
+    //   duration: 1,
+    // },
+    // '23': {
+    //   id: 23,
+    //   bpm: tempo,
+    //   accentInterval: 5,
+    //   duration: 3,
+    // },
+    // '24': {
+    //   id: 24,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
+    // '25': {
+    //   id: 25,
+    //   bpm: tempo,
+    //   accentInterval: 4,
+    //   duration: 1,
+    // },
+    // '26': {
+    //   id: 26,
+    //   bpm: tempo,
+    //   accentInterval: 3,
+    //   duration: 1,
+    // },
   },
   isOddTimeEnabled: false,
   nextId: 2,

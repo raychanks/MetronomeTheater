@@ -5,25 +5,50 @@ import Bpm from './Bpm';
 import Header from './Header';
 import OddTime from './OddTime';
 
-const App = () => {
-  return (
-    <Container>
-      <Header />
-      <Bpm />
-      <OddTime />
-    </Container>
-  );
-};
+class App extends React.Component {
+  state = {
+    useSimpleMetronome: false,
+  }
+
+  toggleMetronomeMode = from => () => {
+    if (from === 'basic') {
+      this.setState({
+        useSimpleMetronome: true,
+      });
+    } else {
+      this.setState({
+        useSimpleMetronome: false,
+      });
+    }
+  }
+
+  render() {
+    return (
+      <Container>
+        <Header
+          useSimpleMetronome={this.state.useSimpleMetronome}
+          toggleMetronomeMode={this.toggleMetronomeMode}
+        />
+
+        {this.state.useSimpleMetronome ? (
+          <Bpm />
+        ) : (
+          <OddTime />
+        )}
+      </Container>
+    );
+  }
+}
 
 export default App;
 
 const Container = styled.div`
   display: grid;
   grid-template-areas:
-    'header header'
-    'basic odd';
+    'header'
+    'timer';
   grid-gap: 20px;
-  margin: 10px;
+  margin: 10px auto;
   align-items: center;
-  justify-content: center;
+  width: 420px;
 `;

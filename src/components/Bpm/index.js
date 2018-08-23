@@ -77,19 +77,19 @@ class Bpm extends React.Component<Props> {
           isPlaying={isPlaying}
         />
 
-        <AccentIntervalSelector
-          accentInterval={accentInterval}
-          increment={this.increment('accentInterval')}
-          decrement={this.decrement('accentInterval')}
-          onChangeAccentInterval={this.props.changeAccentInterval}
-        />
-
         <BpmDisplay
           beatsPerMinute={beatsPerMinute}
           increment={this.increment('beatsPerMinute')}
           decrement={this.decrement('beatsPerMinute')}
           onChangeBpmInput={this.props.changeBpmInput}
           onBlurBpmInput={this.props.validateBpmInput}
+        />
+
+        <AccentIntervalSelector
+          accentInterval={accentInterval}
+          increment={this.increment('accentInterval')}
+          decrement={this.decrement('accentInterval')}
+          onChangeAccentInterval={this.props.changeAccentInterval}
         />
 
         <SoundComponent
@@ -119,5 +119,5 @@ const Container = styled.div`
   display: grid;
   align-items: center;
   justify-items: center;
-  grid-area: basic;
+  grid-area: timer;
 `;

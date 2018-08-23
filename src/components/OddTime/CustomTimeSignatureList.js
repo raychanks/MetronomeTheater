@@ -33,10 +33,10 @@ class CustomTimeSignatureList extends React.Component<Props> {
 
   render() {
     return (
-      <Container>
+      <div>
         {_.map(this.props.oddTimeItems, item => {
           return (
-            <React.Fragment key={item.id}>
+            <Container key={item.id}>
               <BpmInput
                 type='text'
                 value={item.bpm}
@@ -53,10 +53,10 @@ class CustomTimeSignatureList extends React.Component<Props> {
                 onChange={this.oddTimeInput('duration', item.id)}
               />
               <ButtonContainer id={item.id} />
-            </React.Fragment>
+            </Container>
           );
         })}
-      </Container>
+      </div>
     );
   }
 }
@@ -84,6 +84,11 @@ const BpmInput = styled.input`
   width: 90px;
   height: 30px;
   margin: 5px 0;
+  border: 1px solid steelblue;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 1.2em;
+  color: steelblue;
 `;
 
 const AccentInput = styled.input`
@@ -91,6 +96,11 @@ const AccentInput = styled.input`
   width: 90px;
   height: 30px;
   margin: 5px 0;
+  border: 1px solid steelblue;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 1.2em;
+  color: steelblue;
 `;
 
 const DurationInput = styled.input`
@@ -98,4 +108,9 @@ const DurationInput = styled.input`
   width: 90px;
   height: 30px;
   margin: 5px 0;
+  border: 1px solid steelblue;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 1.2em;
+  color: steelblue;
 `;

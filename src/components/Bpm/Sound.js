@@ -14,7 +14,7 @@ const SoundComponent = ({
   const beatPlayStatus = shouldPlayBeat ? 'PLAYING' : 'STOPPED';
 
   return (
-    <div>
+    <React.Fragment>
       <Sound
         url={accentSound}
         playStatus={accentPlayStatus}
@@ -25,7 +25,7 @@ const SoundComponent = ({
         playStatus={beatPlayStatus}
         autoLoad={true}
       />
-    </div>
+    </React.Fragment>
   );
 };
 
