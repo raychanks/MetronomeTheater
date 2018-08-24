@@ -13,6 +13,7 @@ import {
   CHANGE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_BPM_INPUT,
+  LOAD_ODD_TIME_TEMPLATE,
 } from '../constants/actionTypes';
 
 import type {
@@ -164,6 +165,34 @@ export default function (state: OddTimeState = INITIAL_STATE, action: OddTimeAct
     } else {
       return state;
     }
+  }
+
+  case LOAD_ODD_TIME_TEMPLATE: {
+    // validate the object obtained from localStorage
+    const ObjectKeysAreValid = Object.keys(action.oddTimeTemplate)
+      .every(key => {
+        return !isNaN(key);
+      });
+    const ObjectValuesAreValid = Object.values(action.oddTimeTemplate)
+      .every(item => {
+        return (
+          Object.keys(item).length === 4
+          && typeof item.id === 'number'
+          && typeof item.bpm === 'number'
+          && typeof item.accentInterval === 'number'
+          && typeof item.duration === 'number'
+        );
+      });
+
+    if (ObjectKeysAreValid && ObjectValuesAreValid) {
+      return {
+        ...state,
+        oddTimeItems: action.oddTimeTemplate,
+        speedFactor: 100,
+      };
+    }
+
+    return state;
   }
 
   default:

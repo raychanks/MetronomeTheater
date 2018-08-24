@@ -11,6 +11,7 @@ import {
   CHANGE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_BPM_INPUT,
+  LOAD_ODD_TIME_TEMPLATE,
 } from '../constants/actionTypes';
 
 import type {
@@ -169,4 +170,16 @@ export const validateBpmInput = (
   id: number, bpm: number
 ): ValidateOddTimeBpmInputAction => {
   return { type: VALIDATE_ODD_TIME_BPM_INPUT, bpm, id };
+};
+
+export const saveTemplate = () => (dispatch, getState) => {
+  const oddTimeTemplate = JSON.stringify(getState().oddTime.oddTimeItems);
+
+  localStorage.setItem('oddTimeTemplate', oddTimeTemplate);
+};
+
+export const loadTemplate = () => {
+  const oddTimeTemplate = JSON.parse(localStorage.getItem('oddTimeTemplate'));
+
+  return { type: LOAD_ODD_TIME_TEMPLATE, oddTimeTemplate };
 };

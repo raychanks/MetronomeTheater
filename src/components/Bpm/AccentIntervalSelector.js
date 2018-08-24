@@ -7,6 +7,7 @@ type Props = {
   onChangeAccentInterval: (event: SyntheticInputEvent<HTMLInputElement>) => mixed,
   increment: () => void,
   decrement: () => void,
+  isPlaying: boolean,
 };
 
 const AccentIntervalSelector = ({
@@ -14,6 +15,7 @@ const AccentIntervalSelector = ({
   onChangeAccentInterval,
   increment,
   decrement,
+  isPlaying,
 }: Props) => {
   return (
     <Container>
@@ -24,6 +26,7 @@ const AccentIntervalSelector = ({
       <BpmInput
         type='text'
         value={accentInterval}
+        disabled={isPlaying}
         onChange={onChangeAccentInterval}
       />
 

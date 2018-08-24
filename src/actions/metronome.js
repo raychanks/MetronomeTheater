@@ -49,7 +49,7 @@ type Dispatch = (action: Action | ThunkAction) => any;
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
 
 export const togglePlayState = (): ThunkAction => (dispatch, getState): void => {
-  const { intervalId, isPlaying, beatsPerMinute } = getState().metronome;
+  const { intervalId, isPlaying, beatsPerMinute, speedFactor } = getState().metronome;
 
   // use the counter to trigger updates of the Sound component
   if (isPlaying) {
@@ -60,7 +60,7 @@ export const togglePlayState = (): ThunkAction => (dispatch, getState): void => 
   } else {
     // start metronome
     // one minute in ms divided by beatsPerMinute
-    const repeatInterval = 60000 / beatsPerMinute;
+    const repeatInterval = 60000 / (beatsPerMinute * speedFactor / 100);
     const intervalId = setInterval(() => {
       dispatch({ type: METRONOME_TICKS });
     }, repeatInterval);

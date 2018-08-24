@@ -73,6 +73,7 @@ class Bpm extends React.Component<Props> {
             <NumberInput
               type='number'
               value={speedFactor}
+              disabled={isPlaying}
               onChange={this.props.changeSpeedFactor}
               onBlur={this.props.validateSpeedFactor}
             />
@@ -81,6 +82,8 @@ class Bpm extends React.Component<Props> {
 
         <BpmDisplay
           beatsPerMinute={beatsPerMinute}
+          speedFactor={speedFactor}
+          isPlaying={isPlaying}
           increment={this.increment('beatsPerMinute')}
           decrement={this.decrement('beatsPerMinute')}
           onChangeBpmInput={this.props.changeBpmInput}
@@ -89,6 +92,7 @@ class Bpm extends React.Component<Props> {
 
         <AccentIntervalSelector
           accentInterval={accentInterval}
+          isPlaying={isPlaying}
           increment={this.increment('accentInterval')}
           decrement={this.decrement('accentInterval')}
           onChangeAccentInterval={this.props.changeAccentInterval}

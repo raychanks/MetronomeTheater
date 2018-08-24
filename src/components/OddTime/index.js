@@ -11,6 +11,8 @@ import {
   toggleOddTimePlayState,
   changeSpeedFactor,
   validateSpeedFactor,
+  saveTemplate,
+  loadTemplate,
 } from '../../actions/oddTime';
 
 type Props = {
@@ -57,6 +59,15 @@ class OddTime extends React.Component<Props> {
           </div>
         </ButtonSection>
 
+        <StorageButtonContainer>
+          <StorageButton onClick={this.props.saveTemplate}>
+            Save Template
+          </StorageButton>
+          <StorageButton onClick={this.props.loadTemplate}>
+            Load Template
+          </StorageButton>
+        </StorageButtonContainer>
+
         <Header>
           <HeaderText>BPM</HeaderText>
           <HeaderText>Accent Interval</HeaderText>
@@ -87,6 +98,8 @@ export default connect(mapStateToProps, {
   toggleOddTimePlayState,
   changeSpeedFactor,
   validateSpeedFactor,
+  saveTemplate,
+  loadTemplate,
 })(OddTime);
 
 const Container = styled.div`
@@ -149,5 +162,31 @@ const Button = styled.button`
 
   :hover {
     background: #ddd;
+  };
+`;
+
+const StorageButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
+const StorageButton = styled.button`
+  height: 40px;
+  width: 120px;
+  background: #DCEDC8;
+  border: 2px solid #C5E1A5;
+  border-radius: 4px;
+  margin: 0 20px;
+  cursor: pointer;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.5);
+  outline: none;
+  color: #333;
+
+  :active {
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background: #9CCC65;
+    border: 2px solid #8BC34A;
   };
 `;

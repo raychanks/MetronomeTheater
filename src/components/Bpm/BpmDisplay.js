@@ -8,6 +8,8 @@ type Props = {
   decrement: () => void,
   onChangeBpmInput: (event: SyntheticKeyboardEvent<HTMLInputElement>) => mixed,
   onBlurBpmInput: () => mixed,
+  speedFactor: number,
+  isPlaying: boolean,
 };
 
 const BpmDisplay = ({
@@ -16,6 +18,8 @@ const BpmDisplay = ({
   decrement,
   onChangeBpmInput,
   onBlurBpmInput,
+  speedFactor,
+  isPlaying,
 }: Props) => {
   return (
     <Container>
@@ -25,7 +29,8 @@ const BpmDisplay = ({
 
       <BpmInput
         type='text'
-        value={beatsPerMinute}
+        value={Math.round(beatsPerMinute * speedFactor / 100)}
+        disabled={isPlaying}
         onChange={onChangeBpmInput}
         onBlur={onBlurBpmInput}
       />

@@ -24,6 +24,7 @@ export type ODD_TIME_METRONOME_TICKS_TYPE = 'ODD_TIME_METRONOME_TICKS';
 export type CHANGE_ODD_TIME_SPEED_FACTOR_TYPE = 'CHANGE_ODD_TIME_SPEED_FACTOR';
 export type VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE = 'VALIDATE_ODD_TIME_SPEED_FACTOR';
 export type VALIDATE_ODD_TIME_BPM_INPUT_TYPE = 'VALIDATE_ODD_TIME_BPM_INPUT';
+export type LOAD_ODD_TIME_TEMPLATE_TYPE = 'LOAD_ODD_TIME_TEMPLATE';
 
 // type for actions
 // metronome
@@ -130,6 +131,10 @@ export type ValidateOddTimeBpmInputAction = {
   bpm: number,
   id: number,
 };
+export type LoadOddTimeTemplateAction = {
+  type: LOAD_ODD_TIME_TEMPLATE_TYPE,
+  oddTimeTemplate: mixed,
+};
 export type OddTimeAction =
   | OddTimeBpmInputAction
   | OddTimeAccentInputAction
@@ -141,7 +146,8 @@ export type OddTimeAction =
   | OddTimeMetronomeTicksAction
   | ChangeOddTimeSpeedFactorAction
   | ValidateOddTimeSpeedFactorAction
-  | ValidateOddTimeBpmInputAction;
+  | ValidateOddTimeBpmInputAction
+  | LoadOddTimeTemplateAction;
 
 // State
 export type MetronomeState = {
