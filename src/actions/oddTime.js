@@ -179,7 +179,11 @@ export const saveTemplate = () => (dispatch, getState) => {
 };
 
 export const loadTemplate = () => {
-  const oddTimeTemplate = JSON.parse(localStorage.getItem('oddTimeTemplate'));
+  try {
+    const oddTimeTemplate = JSON.parse(localStorage.getItem('oddTimeTemplate'));
 
-  return { type: LOAD_ODD_TIME_TEMPLATE, oddTimeTemplate };
+    return { type: LOAD_ODD_TIME_TEMPLATE, oddTimeTemplate };
+  } catch (err) {
+    return { type: 'default' };
+  }
 };
