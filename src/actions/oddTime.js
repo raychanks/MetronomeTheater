@@ -14,34 +14,20 @@ import {
 } from '../constants/actionTypes';
 
 import type {
-  ODD_TIME_BPM_INPUT_TYPE,
-  ODD_TIME_ACCENT_INPUT_TYPE,
-  ODD_TIME_DURATION_INPUT_TYPE,
-  ADD_ODD_TIME_ITEM_TYPE,
-  REMOVE_ODD_TIME_ITEM_TYPE,
-  START_ODD_TIME_METRONOME_TYPE,
-  STOP_ODD_TIME_METRONOME_TYPE,
-  ODD_TIME_METRONOME_TICKS_TYPE,
-  CHANGE_ODD_TIME_SPEED_FACTOR_TYPE,
-  VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE,
-  VALIDATE_ODD_TIME_BPM_INPUT_TYPE,
+  OddTimeBpmInputAction,
+  OddTimeAccentInputAction,
+  OddTimeDurationInputAction,
+  AddOddTimeItemAction,
+  RemoveOddTimeItemAction,
+  ChangeOddTimeSpeedFactorAction,
+  ValidateOddTimeSpeedFactorAction,
+  ValidateOddTimeBpmInputAction,
+  OddTimeAction,
   State,
 } from '../constants/flowTypes';
 
-type Action =
-  | { type: ODD_TIME_BPM_INPUT_TYPE, id: number, value: number }
-  | { type: ODD_TIME_ACCENT_INPUT_TYPE, id: number, value: number }
-  | { type: ODD_TIME_DURATION_INPUT_TYPE, id: number, value: number }
-  | { type: ADD_ODD_TIME_ITEM_TYPE }
-  | { type: REMOVE_ODD_TIME_ITEM_TYPE, id: number }
-  | { type: START_ODD_TIME_METRONOME_TYPE }
-  | { type: STOP_ODD_TIME_METRONOME_TYPE }
-  | { type: ODD_TIME_METRONOME_TICKS_TYPE, currentId: number, counter: number }
-  | { type: CHANGE_ODD_TIME_SPEED_FACTOR_TYPE, value: number }
-  | { type: VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE, value: number };
-
 type GetState = () => State;
-type Dispatch = (action: Action | ThunkAction) => any;
+type Dispatch = (action: OddTimeAction | ThunkAction) => any;
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
 type IntervalWrapperItem = {
   id: number,
@@ -53,7 +39,7 @@ type IntervalWrapperItem = {
 export const oddTimeBpmInput = (
   id: number,
   value: number,
-) => {
+): OddTimeBpmInputAction => {
   return {
     type: ODD_TIME_BPM_INPUT,
     id,
@@ -64,7 +50,7 @@ export const oddTimeBpmInput = (
 export const oddTimeAccentInput = (
   id: number,
   value: number,
-) => {
+): OddTimeAccentInputAction => {
   return {
     type: ODD_TIME_ACCENT_INPUT,
     id,
@@ -75,7 +61,7 @@ export const oddTimeAccentInput = (
 export const oddTimeDurationInput = (
   id: number,
   value: number,
-) => {
+): OddTimeDurationInputAction => {
   return {
     type: ODD_TIME_DURATION_INPUT,
     id,
@@ -83,15 +69,15 @@ export const oddTimeDurationInput = (
   };
 };
 
-export const addOddTimeItem = () => {
+export const addOddTimeItem = (): AddOddTimeItemAction => {
   return { type: ADD_ODD_TIME_ITEM };
 };
 
-export const removeOddTimeItem = (id: number) => {
+export const removeOddTimeItem = (id: number): RemoveOddTimeItemAction => {
   return { type: REMOVE_ODD_TIME_ITEM, id };
 };
 
-export const toggleOddTimePlayState = (): ThunkAction => (dispatch, getState) => {
+export const toggleOddTimePlayState = (): ThunkAction => (dispatch, getState): void => {
   const { isPlaying, intervalId, oddTimeItems } = getState().oddTime;
 
   if (isPlaying) {
@@ -163,18 +149,24 @@ export const toggleOddTimePlayState = (): ThunkAction => (dispatch, getState) =>
   }
 };
 
-export const changeSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>) => {
+export const changeSpeedFactor = (
+  event: SyntheticInputEvent<HTMLInputElement>
+): ChangeOddTimeSpeedFactorAction => {
   const value = Number(event.currentTarget.value);
 
   return { type: CHANGE_ODD_TIME_SPEED_FACTOR, value };
 };
 
-export const validateSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>) => {
+export const validateSpeedFactor = (
+  event: SyntheticInputEvent<HTMLInputElement>
+): ValidateOddTimeSpeedFactorAction => {
   const value = Number(event.currentTarget.value);
 
   return { type: VALIDATE_ODD_TIME_SPEED_FACTOR, value };
 };
 
-export const validateBpmInput = (id: number, bpm: number) => {
+export const validateBpmInput = (
+  id: number, bpm: number
+): ValidateOddTimeBpmInputAction => {
   return { type: VALIDATE_ODD_TIME_BPM_INPUT, bpm, id };
 };

@@ -15,17 +15,40 @@ import {
 } from '../constants/actionTypes';
 
 import type {
+  StartMetronomeAction,
+  StopMetronomeAction,
+  MetronomeTicksAction,
+  IncrementBpmAction,
+  IncrementAccentIntervalAction,
+  DecrementBpmAction,
+  DecrementAccentIntervalAction,
+  ChangeAccentIntervalAction,
+  ChangeBpmInputAction,
+  ValidateBpmInputAction,
+  ChangeSpeedFactorAction,
+  ValidateSpeedFactorAction,
   State,
 } from '../constants/flowTypes';
 
-type Action = {
-  type: string,
-};
+type Action =
+  | StartMetronomeAction
+  | StopMetronomeAction
+  | MetronomeTicksAction
+  | IncrementBpmAction
+  | IncrementAccentIntervalAction
+  | DecrementBpmAction
+  | DecrementAccentIntervalAction
+  | ChangeAccentIntervalAction
+  | ChangeBpmInputAction
+  | ValidateBpmInputAction
+  | ChangeSpeedFactorAction
+  | ValidateSpeedFactorAction;
+
 type GetState = () => State;
 type Dispatch = (action: Action | ThunkAction) => any;
 type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
 
-export const togglePlayState = (): ThunkAction => (dispatch, getState) => {
+export const togglePlayState = (): ThunkAction => (dispatch, getState): void => {
   const { intervalId, isPlaying, beatsPerMinute } = getState().metronome;
 
   // use the counter to trigger updates of the Sound component
@@ -49,7 +72,7 @@ export const togglePlayState = (): ThunkAction => (dispatch, getState) => {
   }
 };
 
-export const increment = (name: string): ThunkAction => (dispatch, getState) => {
+export const increment = (name: string): ThunkAction => (dispatch, getState): void => {
   const { beatsPerMinute } = getState().metronome;
 
   if (name === 'beatsPerMinute' && beatsPerMinute < 440) {
@@ -61,7 +84,7 @@ export const increment = (name: string): ThunkAction => (dispatch, getState) => 
   }
 };
 
-export const decrement = (name: string): ThunkAction => (dispatch, getState) => {
+export const decrement = (name: string): ThunkAction => (dispatch, getState): void => {
   const { beatsPerMinute, accentInterval } = getState().metronome;
 
   if (name === 'beatsPerMinute' && beatsPerMinute > 20) {
@@ -73,7 +96,9 @@ export const decrement = (name: string): ThunkAction => (dispatch, getState) => 
   }
 };
 
-export const changeAccentInterval = (event: SyntheticInputEvent<HTMLInputElement>) => {
+export const changeAccentInterval = (
+  event: SyntheticInputEvent<HTMLInputElement>
+): ChangeAccentIntervalAction => {
   const value = Number(event.currentTarget.value);
 
   return {
@@ -82,7 +107,9 @@ export const changeAccentInterval = (event: SyntheticInputEvent<HTMLInputElement
   };
 };
 
-export const changeBpmInput = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+export const changeBpmInput = (
+  event: SyntheticKeyboardEvent<HTMLInputElement>
+): ChangeBpmInputAction | void => {
   const value = Number(event.currentTarget.value);
 
   if (!isNaN(value)) {
@@ -90,21 +117,27 @@ export const changeBpmInput = (event: SyntheticKeyboardEvent<HTMLInputElement>) 
   }
 };
 
-export const validateBpmInput = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+export const validateBpmInput = (
+  event: SyntheticFocusEvent<HTMLInputElement>
+): ValidateBpmInputAction => {
   return {
     type: VALIDATE_BPM_INPUT,
     beatsPerMinute: Number(event.currentTarget.value),
   };
 };
 
-export const changeSpeedFactor = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+export const changeSpeedFactor = (
+  event: SyntheticFocusEvent<HTMLInputElement>
+): ChangeSpeedFactorAction => {
   return {
     type: CHANGE_SPEED_FACTOR,
     speedFactor: Number(event.currentTarget.value),
   };
 };
 
-export const validateSpeedFactor = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+export const validateSpeedFactor = (
+  event: SyntheticFocusEvent<HTMLInputElement>
+): ValidateSpeedFactorAction => {
   return {
     type: VALIDATE_SPEED_FACTOR,
     speedFactor: Number(event.currentTarget.value),

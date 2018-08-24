@@ -15,38 +15,9 @@ import {
 } from '../constants/actionTypes';
 
 import type {
-  STOP_METRONOME_TYPE,
-  CHANGE_SPEED_FACTOR_TYPE,
-  VALIDATE_SPEED_FACTOR_TYPE,
   MetronomeState,
+  MetronomeAction,
 } from '../constants/flowTypes';
-
-type StartMetronomeAction = { type: typeof START_METRONOME, intervalId: IntervalID };
-type StopMetronomeAction = { type: STOP_METRONOME_TYPE };
-type MetronomeTicksAction = { type: typeof METRONOME_TICKS };
-type IncrementBpmAction = { type: typeof INCREMENT_BPM };
-type IncrementAccentIntervalAction = { type: typeof INCREMENT_ACCENT_INTERVAL };
-type DecrementBpmAction = { type: typeof DECREMENT_BPM };
-type DecrementAccentIntervalAction = { type: typeof DECREMENT_ACCENT_INTERVAL };
-type ChangeAccentIntervalAction = { type: typeof CHANGE_ACCENT_INTERVAL, value: number };
-type ChangeBpmInputAction = { type: typeof CHANGE_BPM_INPUT, value: number };
-type ValidateBpmInputAction = { type: typeof VALIDATE_BPM_INPUT, beatsPerMinute: number };
-type ChangeSpeedFactorAction = { type: CHANGE_SPEED_FACTOR_TYPE, speedFactor: number };
-type ValidateSpeedFactorAction = { type: VALIDATE_SPEED_FACTOR_TYPE, speedFactor: number };
-
-type Action =
-  | StartMetronomeAction
-  | StopMetronomeAction
-  | MetronomeTicksAction
-  | IncrementBpmAction
-  | IncrementAccentIntervalAction
-  | DecrementBpmAction
-  | DecrementAccentIntervalAction
-  | ChangeAccentIntervalAction
-  | ChangeBpmInputAction
-  | ValidateBpmInputAction
-  | ChangeSpeedFactorAction
-  | ValidateSpeedFactorAction;
 
 const INITIAL_STATE: MetronomeState = {
   intervalId: null,
@@ -57,7 +28,7 @@ const INITIAL_STATE: MetronomeState = {
   speedFactor: 100,
 };
 
-export default function (state: MetronomeState = INITIAL_STATE, action: Action) {
+export default function (state: MetronomeState = INITIAL_STATE, action: MetronomeAction) {
   switch (action.type) {
   case START_METRONOME: {
     return { ...state, isPlaying: true, intervalId: action.intervalId };

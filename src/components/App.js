@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+import * as React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -8,7 +9,17 @@ import OddTime from './OddTime';
 import { togglePlayState } from '../actions/metronome';
 import { toggleOddTimePlayState } from '../actions/oddTime';
 
-class App extends React.Component {
+type Props = {
+  toggleOddTimePlayState: () => any,
+  togglePlayState: () => any,
+  oddTimePlaying: boolean,
+  classicPlaying: boolean,
+};
+type State = {
+  useSimpleMetronome: boolean,
+};
+
+class App extends React.Component<Props, State> {
   state = {
     useSimpleMetronome: true,
   }

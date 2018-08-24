@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 type Props = {
-  toggleMetronomeMode: (from: string) => void,
+  toggleMetronomeMode: (from: string) => mixed,
   useSimpleMetronome: boolean,
 };
 
