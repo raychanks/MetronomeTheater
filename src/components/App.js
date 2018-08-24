@@ -7,7 +7,7 @@ import OddTime from './OddTime';
 
 class App extends React.Component {
   state = {
-    useSimpleMetronome: false,
+    useSimpleMetronome: true,
   }
 
   toggleMetronomeMode = from => () => {

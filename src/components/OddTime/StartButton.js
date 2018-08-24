@@ -30,7 +30,6 @@ const Button = styled.button`
   box-shadow: 1px 3px 4px seagreen;
   outline: none;
   color: #333;
-  margin-bottom: 30px;
 
   :hover {
   };

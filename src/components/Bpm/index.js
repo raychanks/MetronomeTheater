@@ -14,6 +14,8 @@ import {
   changeAccentInterval,
   changeBpmInput,
   validateBpmInput,
+  changeSpeedFactor,
+  validateSpeedFactor,
 } from '../../actions/metronome';
 
 type Props = {
@@ -65,6 +67,7 @@ class Bpm extends React.Component<Props> {
       counter,
       isPlaying,
       accentInterval,
+      speedFactor,
     } = this.props.metronome;
 
     const playBeat = isPlaying && counter % accentInterval !== 0;
@@ -72,10 +75,23 @@ class Bpm extends React.Component<Props> {
 
     return (
       <Container>
-        <MainButton
-          togglePlayState={this.togglePlayState}
-          isPlaying={isPlaying}
-        />
+        <ButtonSection>
+          <MainButton
+            togglePlayState={this.togglePlayState}
+            isPlaying={isPlaying}
+          />
+
+          <div>
+            <HeaderText>Speed Factor</HeaderText>
+            <HeaderText>(30% - 150%)</HeaderText>
+            <NumberInput
+              type='number'
+              value={speedFactor}
+              onChange={this.props.changeSpeedFactor}
+              onBlur={this.props.validateSpeedFactor}
+            />
+          </div>
+        </ButtonSection>
 
         <BpmDisplay
           beatsPerMinute={beatsPerMinute}
@@ -113,6 +129,8 @@ export default connect(mapStateToProps, {
   changeAccentInterval,
   changeBpmInput,
   validateBpmInput,
+  changeSpeedFactor,
+  validateSpeedFactor,
 })(Bpm);
 
 const Container = styled.div`
@@ -120,4 +138,32 @@ const Container = styled.div`
   align-items: center;
   justify-items: center;
   grid-area: timer;
+`;
+
+const ButtonSection = styled.div`
+  display: grid;
+  grid-template-columns: 200px 150px;
+  column-gap: 20px;
+  align-items: center;
+  height: 200px;
+`;
+
+const NumberInput = styled.input`
+  box-sizing: border-box;
+  width: 100px;
+  height: 30px;
+  margin: 5px 25px;
+  border: 1px solid steelblue;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 1.2em;
+  color: steelblue;
+`;
+
+const HeaderText = styled.p`
+  font-weight: bold;
+  font-size: 1.2em;
+  margin: 0;
+  text-align: center;
+  color: steelblue;
 `;

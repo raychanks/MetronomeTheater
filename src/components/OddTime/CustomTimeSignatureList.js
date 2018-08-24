@@ -9,14 +9,18 @@ import {
   oddTimeBpmInput,
   oddTimeAccentInput,
   oddTimeDurationInput,
+  validateBpmInput,
 } from '../../actions/oddTime';
 
 type Props = {
   oddTimeBpmInput: (id: number, value: number) => void,
   oddTimeAccentInput: (id: number, value: number) => void,
   oddTimeDurationInput: (id: number, value: number) => void,
+  validateBpmInput: (id: number, bpm: number) => mixed,
   oddTimeItems: *,
   currentId: number,
+  speedFactor: number,
+  isPlaying: boolean,
 };
 
 class CustomTimeSignatureList extends React.Component<Props> {
@@ -32,29 +36,38 @@ class CustomTimeSignatureList extends React.Component<Props> {
     }
   }
 
+  validateBpmInputWrapper = id => event => {
+    const bpm = Number(event.currentTarget.value);
+
+    this.props.validateBpmInput(id, bpm);
+  }
+
   render() {
+    const { oddTimeItems, currentId, isPlaying, speedFactor } = this.props;
+
     return (
       <div>
-        {map(this.props.oddTimeItems, item => {
+        {map(oddTimeItems, item => {
           return (
             <Container key={item.id}>
               <BpmInput
                 type='text'
-                value={item.bpm}
+                value={Math.round(item.bpm * speedFactor / 100)}
                 onChange={this.oddTimeInput('bpm', item.id)}
-                active={this.props.currentId === item.id && this.props.isPlaying}
+                onBlur={this.validateBpmInputWrapper(item.id)}
+                active={currentId === item.id && isPlaying}
               />
               <AccentInput
                 type='text'
                 value={item.accentInterval}
                 onChange={this.oddTimeInput('accent', item.id)}
-                active={this.props.currentId === item.id && this.props.isPlaying}
+                active={currentId === item.id && isPlaying}
               />
               <DurationInput
                 type='text'
                 value={item.duration}
                 onChange={this.oddTimeInput('duration', item.id)}
-                active={this.props.currentId === item.id && this.props.isPlaying}
+                active={currentId === item.id && isPlaying}
               />
               <ButtonContainer id={item.id} />
             </Container>
@@ -66,10 +79,18 @@ class CustomTimeSignatureList extends React.Component<Props> {
 }
 
 function mapStateToProps({ oddTime }) {
+  const {
+    oddTimeItems,
+    currentId,
+    isPlaying,
+    speedFactor,
+  } = oddTime;
+
   return {
-    oddTimeItems: oddTime.oddTimeItems,
-    currentId: oddTime.currentId,
-    isPlaying: oddTime.isPlaying,
+    oddTimeItems,
+    currentId,
+    isPlaying,
+    speedFactor,
   };
 }
 
@@ -77,6 +98,7 @@ export default connect(mapStateToProps, {
   oddTimeBpmInput,
   oddTimeAccentInput,
   oddTimeDurationInput,
+  validateBpmInput,
 })(CustomTimeSignatureList);
 
 const Container = styled.div`

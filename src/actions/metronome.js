@@ -10,6 +10,8 @@ import {
   CHANGE_ACCENT_INTERVAL,
   CHANGE_BPM_INPUT,
   VALIDATE_BPM_INPUT,
+  CHANGE_SPEED_FACTOR,
+  VALIDATE_SPEED_FACTOR,
 } from '../constants/actionTypes';
 
 type Action = {
@@ -89,5 +91,19 @@ export const validateBpmInput = (event: SyntheticFocusEvent<HTMLInputElement>) =
   return {
     type: VALIDATE_BPM_INPUT,
     beatsPerMinute: Number(event.currentTarget.value),
+  };
+};
+
+export const changeSpeedFactor = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+  return {
+    type: CHANGE_SPEED_FACTOR,
+    speedFactor: Number(event.currentTarget.value),
+  };
+};
+
+export const validateSpeedFactor = (event: SyntheticFocusEvent<HTMLInputElement>) => {
+  return {
+    type: VALIDATE_SPEED_FACTOR,
+    speedFactor: Number(event.currentTarget.value),
   };
 };

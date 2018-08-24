@@ -40,7 +40,7 @@ export default BpmDisplay;
 const Container = styled.div`
   width: 210px;
   height: 80px;
-  margin: 30px 15px 15px 15px;
+  margin: 15px;
   display: grid;
   grid-template-columns: 50px 90px 50px;
   grid-template-rows: 30px 40px;

@@ -16,7 +16,8 @@ import {
 type Props = {
   addOddTimeItem: () => mixed,
   toggleOddTimePlayState: () => *,
-  changeSpeedFactor: () => void,
+  changeSpeedFactor: () => mixed,
+  validateSpeedFactor: () => mixed,
   oddTime: *,
 };
 
@@ -89,8 +90,8 @@ export default connect(mapStateToProps, {
 
 const Container = styled.div`
   display: grid;
-  row-gap: 10px;
-  grid-template-rows: 230px;
+  row-gap: 15px;
+  grid-template-rows: 200px;
   grid-area: timer;
   align-self: start;
   justify-items: center;
@@ -102,7 +103,6 @@ const ButtonSection = styled.div`
   column-gap: 20px;
   align-items: center;
   height: 200px;
-  margin-bottom: 30px;
 `;
 
 const NumberInput = styled.input`

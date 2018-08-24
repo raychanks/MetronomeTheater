@@ -10,6 +10,7 @@ import {
   ODD_TIME_METRONOME_TICKS,
   CHANGE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_SPEED_FACTOR,
+  VALIDATE_ODD_TIME_BPM_INPUT,
 } from '../constants/actionTypes';
 
 import type {
@@ -23,10 +24,9 @@ import type {
   ODD_TIME_METRONOME_TICKS_TYPE,
   CHANGE_ODD_TIME_SPEED_FACTOR_TYPE,
   VALIDATE_ODD_TIME_SPEED_FACTOR_TYPE,
+  VALIDATE_ODD_TIME_BPM_INPUT_TYPE,
   State,
 } from '../constants/flowTypes';
-
-
 
 type Action =
   | { type: ODD_TIME_BPM_INPUT_TYPE, id: number, value: number }
@@ -147,7 +147,7 @@ export const toggleOddTimePlayState = (): ThunkAction => (dispatch, getState) =>
       item: any,
       idx: number,
     ) => {
-      const repeatInterval = 60000 / item.bpm;
+      const repeatInterval = 60000 / (item.bpm * getState().oddTime.speedFactor / 100);
 
       return intervalWrapper(item, idx, repeatInterval);
     });
@@ -173,4 +173,8 @@ export const validateSpeedFactor = (event: SyntheticInputEvent<HTMLInputElement>
   const value = Number(event.currentTarget.value);
 
   return { type: VALIDATE_ODD_TIME_SPEED_FACTOR, value };
+};
+
+export const validateBpmInput = (id: number, bpm: number) => {
+  return { type: VALIDATE_ODD_TIME_BPM_INPUT, bpm, id };
 };

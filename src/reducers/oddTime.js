@@ -11,6 +11,7 @@ import {
   ODD_TIME_METRONOME_TICKS,
   CHANGE_ODD_TIME_SPEED_FACTOR,
   VALIDATE_ODD_TIME_SPEED_FACTOR,
+  VALIDATE_ODD_TIME_BPM_INPUT,
 } from '../constants/actionTypes';
 
 // const tempo = 360;
@@ -208,8 +209,18 @@ export default function (state = INITIAL_STATE, action) {
     return { ...state, isPlaying: true };
   }
 
-  case STOP_ODD_TIME_METRONOME:
-    return { ...state, intervalId: null, isPlaying: false, counter: 0 };
+  case STOP_ODD_TIME_METRONOME: {
+    const oddTimeItemsArr = Object.values(state.oddTimeItems);
+    const currentId = oddTimeItemsArr[0] ? oddTimeItemsArr[0].id : 0;
+
+    return {
+      ...state,
+      currentId,
+      intervalId: null,
+      isPlaying: false,
+      counter: 0,
+    };
+  }
 
   case ODD_TIME_METRONOME_TICKS:
     return {
@@ -219,13 +230,38 @@ export default function (state = INITIAL_STATE, action) {
     };
 
   case ODD_TIME_BPM_INPUT: {
+    if (isNaN(action.value)) {
+      return state;
+    }
+
     const oddTimeItem = { ...state.oddTimeItems[action.id], bpm: action.value };
     const oddTimeItems = { ...state.oddTimeItems, [action.id]: oddTimeItem };
 
     return { ...state, oddTimeItems };
   }
 
+  case VALIDATE_ODD_TIME_BPM_INPUT: {
+    let validatedBpm = action.bpm;
+
+    if (action.bpm < 20) {
+      validatedBpm = 20;
+    }
+
+    if (action.bpm > 440) {
+      validatedBpm = 440;
+    }
+
+    const oddTimeItem = { ...state.oddTimeItems[action.id], bpm: validatedBpm };
+    const oddTimeItems = { ...state.oddTimeItems, [action.id]: oddTimeItem };
+
+    return { ...state, oddTimeItems };
+  }
+
   case ODD_TIME_ACCENT_INPUT: {
+    if (isNaN(action.value)) {
+      return state;
+    }
+
     const oddTimeItem = { ...state.oddTimeItems[action.id], accentInterval: action.value };
     const oddTimeItems = { ...state.oddTimeItems, [action.id]: oddTimeItem };
 
@@ -233,6 +269,10 @@ export default function (state = INITIAL_STATE, action) {
   }
 
   case ODD_TIME_DURATION_INPUT: {
+    if (isNaN(action.value)) {
+      return state;
+    }
+
     const oddTimeItem = { ...state.oddTimeItems[action.id], duration: action.value };
     const oddTimeItems = { ...state.oddTimeItems, [action.id]: oddTimeItem };
 
