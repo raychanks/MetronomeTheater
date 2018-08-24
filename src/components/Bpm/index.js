@@ -40,11 +40,15 @@ class Bpm extends React.Component<Props> {
   }
 
   increment = (name: string) => (): void => {
-    this.props.increment(name);
+    if (!this.props.metronome.isPlaying) {
+      this.props.increment(name);
+    }
   }
 
   decrement = (name: string) => (): void => {
-    this.props.decrement(name);
+    if (!this.props.metronome.isPlaying) {
+      this.props.decrement(name);
+    }
   }
 
   render() {
