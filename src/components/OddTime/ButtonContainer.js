@@ -18,7 +18,9 @@ class ButtonContainer extends React.Component<Props> {
   render() {
     return (
       <Container>
-        <Button onClick={this.removeOddTimeItemWrapper(this.props.id)}>
+        <Button
+          onClick={!this.props.isPlaying ? this.removeOddTimeItemWrapper(this.props.id) : null}
+        >
           x
         </Button>
         {/* <Button> */}

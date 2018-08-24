@@ -60,10 +60,14 @@ class OddTime extends React.Component<Props> {
         </ButtonSection>
 
         <StorageButtonContainer>
-          <StorageButton onClick={this.props.saveTemplate}>
+          <StorageButton
+            onClick={!isPlaying ? this.props.saveTemplate : null}
+          >
             Save Template
           </StorageButton>
-          <StorageButton onClick={this.props.loadTemplate}>
+          <StorageButton
+            onClick={!isPlaying ? this.props.loadTemplate : null}
+          >
             Load Template
           </StorageButton>
         </StorageButtonContainer>
@@ -72,7 +76,9 @@ class OddTime extends React.Component<Props> {
           <HeaderText>BPM</HeaderText>
           <HeaderText>Accent Interval</HeaderText>
           <HeaderText>No. of measures</HeaderText>
-          <Button onClick={this.props.addOddTimeItem}>
+          <Button
+            onClick={!isPlaying ? this.props.addOddTimeItem : null}
+          >
             +
           </Button>
         </Header>

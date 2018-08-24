@@ -53,23 +53,23 @@ class CustomTimeSignatureList extends React.Component<Props> {
               <BpmInput
                 type='text'
                 value={Math.round(item.bpm * speedFactor / 100)}
-                onChange={this.oddTimeInput('bpm', item.id)}
+                onChange={!isPlaying ? this.oddTimeInput('bpm', item.id) : null}
                 onBlur={this.validateBpmInputWrapper(item.id)}
                 active={currentId === item.id && isPlaying}
               />
               <AccentInput
                 type='text'
                 value={item.accentInterval}
-                onChange={this.oddTimeInput('accent', item.id)}
+                onChange={!isPlaying ? this.oddTimeInput('accent', item.id) : null}
                 active={currentId === item.id && isPlaying}
               />
               <DurationInput
                 type='text'
                 value={item.duration}
-                onChange={this.oddTimeInput('duration', item.id)}
+                onChange={!isPlaying ? this.oddTimeInput('duration', item.id) : null}
                 active={currentId === item.id && isPlaying}
               />
-              <ButtonContainer id={item.id} />
+              <ButtonContainer id={item.id} isPlaying={isPlaying} />
             </Container>
           );
         })}
