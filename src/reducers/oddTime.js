@@ -142,8 +142,13 @@ export default function (state: OddTimeState = INITIAL_STATE, action: OddTimeAct
 
   case REMOVE_ODD_TIME_ITEM: {
     const id = action.id;
-    const oddTimeItems = filter(state.oddTimeItems, item => {
+    const oddTimeItems = {};
+    const oddTimeItemsArr = filter(state.oddTimeItems, item => {
       return item.id !== id;
+    });
+
+    oddTimeItemsArr.forEach(item => {
+      oddTimeItems[item.id] = item;
     });
 
     return { ...state, oddTimeItems };

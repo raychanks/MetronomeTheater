@@ -28,7 +28,7 @@
   "homepage": "https://github.com/raychanks/MetronomeTheater#readme",
   "nyc": {
     "include": ["src/**/*.js"],
-    "exclude": ["src/constants", "src/reducers/index.js"]
+    "exclude": ["src/components", "src/constants", "src/reducers/index.js"]
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
