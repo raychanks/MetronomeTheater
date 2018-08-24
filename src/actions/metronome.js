@@ -14,17 +14,20 @@ import {
   VALIDATE_SPEED_FACTOR,
 } from '../constants/actionTypes';
 
+import type {
+  State,
+} from '../constants/flowTypes';
+
 type Action = {
   type: string,
 };
+type GetState = () => State;
 type Dispatch = (action: Action | ThunkAction) => any;
-type ThunkAction = (dispatch: Dispatch) => any;
+type ThunkAction = (dispatch: Dispatch, getState: GetState) => any;
 
-export const togglePlayState = (
-  intervalId: ?IntervalID,
-  isPlaying: boolean,
-  beatsPerMinute: number,
-): ThunkAction => dispatch => {
+export const togglePlayState = (): ThunkAction => (dispatch, getState) => {
+  const { intervalId, isPlaying, beatsPerMinute } = getState().metronome;
+
   // use the counter to trigger updates of the Sound component
   if (isPlaying) {
     // stop metronome
@@ -46,27 +49,27 @@ export const togglePlayState = (
   }
 };
 
-export const increment = (name: string, beatsPerMinute: number) => {
+export const increment = (name: string): ThunkAction => (dispatch, getState) => {
+  const { beatsPerMinute } = getState().metronome;
+
   if (name === 'beatsPerMinute' && beatsPerMinute < 440) {
-    return { type: INCREMENT_BPM };
+    dispatch({ type: INCREMENT_BPM });
   }
 
   if (name === 'accentInterval') {
-    return { type: INCREMENT_ACCENT_INTERVAL };
+    dispatch({ type: INCREMENT_ACCENT_INTERVAL });
   }
 };
 
-export const decrement = (
-  name: string,
-  beatsPerMinute: number,
-  accentInterval: number,
-) => {
+export const decrement = (name: string): ThunkAction => (dispatch, getState) => {
+  const { beatsPerMinute, accentInterval } = getState().metronome;
+
   if (name === 'beatsPerMinute' && beatsPerMinute > 20) {
-    return { type: DECREMENT_BPM };
+    dispatch({ type: DECREMENT_BPM });
   }
 
   if (name === 'accentInterval' && accentInterval > 0) {
-    return { type: DECREMENT_ACCENT_INTERVAL };
+    dispatch({ type: DECREMENT_ACCENT_INTERVAL });
   }
 };
 

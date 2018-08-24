@@ -17,25 +17,19 @@ import {
   changeSpeedFactor,
   validateSpeedFactor,
 } from '../../actions/metronome';
+import type { MetronomeState } from '../../constants/flowTypes';
 
 type Props = {
-  metronome: {
-    intervalId: ?IntervalID,
-    beatsPerMinute: number,
-    counter: number,
-    isPlaying: boolean,
-    accentInterval: number,
-  },
-  togglePlayState: (
-    intervalId: ?IntervalID,
-    isPlaying: boolean,
-    beatsPerMinute: number,
-  ) => mixed,
-  increment: (name: string, beatsPerMinute: number) => mixed,
-  decrement: (name: string, beatsPerMinute: number, accentInterval: number) => mixed,
-  changeAccentInterval: () => mixed,
-  changeBpmInput: () => mixed,
-  validateBpmInput: () => mixed,
+  metronome: MetronomeState,
+  togglePlayState: () => any,
+  increment: (name: string) => any,
+  decrement: (name: string) => any,
+  changeAccentInterval: () => any,
+  changeBpmInput: () => any,
+  validateBpmInput: () => any,
+  speedFactor: number,
+  changeSpeedFactor: () => any,
+  validateSpeedFactor: () => any,
 };
 
 class Bpm extends React.Component<Props> {
@@ -45,20 +39,12 @@ class Bpm extends React.Component<Props> {
       : null;
   }
 
-  togglePlayState = (): void => {
-    const { intervalId, isPlaying, beatsPerMinute } = this.props.metronome;
-
-    this.props.togglePlayState(intervalId, isPlaying, beatsPerMinute);
-  }
-
   increment = (name: string) => (): void => {
-    this.props.increment(name, this.props.metronome.beatsPerMinute);
+    this.props.increment(name);
   }
 
   decrement = (name: string) => (): void => {
-    const { beatsPerMinute, accentInterval } = this.props.metronome;
-
-    this.props.decrement(name, beatsPerMinute, accentInterval);
+    this.props.decrement(name);
   }
 
   render() {
@@ -77,7 +63,7 @@ class Bpm extends React.Component<Props> {
       <Container>
         <ButtonSection>
           <MainButton
-            togglePlayState={this.togglePlayState}
+            togglePlayState={this.props.togglePlayState}
             isPlaying={isPlaying}
           />
 

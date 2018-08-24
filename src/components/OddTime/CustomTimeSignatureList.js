@@ -120,7 +120,7 @@ const BpmInput = styled.input`
   font-size: 1.2em;
   color: steelblue;
 
-  ${props => props.active ? 'background: powderblue;' : null}
+  ${props => props.active ? 'background: rgb(235, 235, 228);' : null}
 `;
 
 const AccentInput = styled.input`
@@ -134,7 +134,7 @@ const AccentInput = styled.input`
   font-size: 1.2em;
   color: steelblue;
 
-  ${props => props.active ? 'background: powderblue;' : null}
+  ${props => props.active ? 'background: rgb(235, 235, 228);' : null}
 `;
 
 const DurationInput = styled.input`
@@ -148,5 +148,5 @@ const DurationInput = styled.input`
   font-size: 1.2em;
   color: steelblue;
 
-  ${props => props.active ? 'background: powderblue;' : null}
+  ${props => props.active ? 'background: rgb(235, 235, 228);' : null}
 `;

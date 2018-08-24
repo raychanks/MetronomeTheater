@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import Bpm from './Bpm';
 import Header from './Header';
 import OddTime from './OddTime';
+import { togglePlayState } from '../actions/metronome';
+import { toggleOddTimePlayState } from '../actions/oddTime';
 
 class App extends React.Component {
   state = {
@@ -12,10 +15,18 @@ class App extends React.Component {
 
   toggleMetronomeMode = from => () => {
     if (from === 'basic') {
+      if (this.props.oddTimePlaying) {
+        this.props.toggleOddTimePlayState();
+      }
+
       this.setState({
         useSimpleMetronome: true,
       });
     } else {
+      if (this.props.classicPlaying) {
+        this.props.togglePlayState();
+      }
+
       this.setState({
         useSimpleMetronome: false,
       });
@@ -40,7 +51,17 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps({ metronome, oddTime }) {
+  return {
+    classicPlaying: metronome.isPlaying,
+    oddTimePlaying: oddTime.isPlaying,
+  };
+}
+
+export default connect(mapStateToProps, {
+  toggleOddTimePlayState,
+  togglePlayState
+})(App);
 
 const Container = styled.div`
   display: grid;

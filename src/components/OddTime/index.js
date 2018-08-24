@@ -50,6 +50,7 @@ class OddTime extends React.Component<Props> {
             <NumberInput
               type='number'
               value={speedFactor}
+              disabled={isPlaying}
               onChange={this.props.changeSpeedFactor}
               onBlur={this.props.validateSpeedFactor}
             />
